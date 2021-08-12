@@ -64,9 +64,17 @@ final class TaskStore: ObservableObject {
   /// JSON Filename for writing/reading to
   private let storeFilename = "PrioritizedTasks"
   
-  /// Full Filename for Saving
-  private var fileURL: URL {
+  /// Full Filename for Saving as JSON
+  private var jsonFileURL: URL {
     let pathExtension = "json"
+    let url = (FileManager.documentsDirectoryURL.appendingPathComponent(storeFilename)).appendingPathExtension(pathExtension)
+    print(url.absoluteString)
+    return url
+  }
+  
+  /// Full Filename for Saving as Plist
+  private var plistFileURL: URL {
+    let pathExtension = "plist"
     let url = (FileManager.documentsDirectoryURL.appendingPathComponent(storeFilename)).appendingPathExtension(pathExtension)
     print(url.absoluteString)
     return url
@@ -84,29 +92,8 @@ final class TaskStore: ObservableObject {
    Saves all changes to JSON file in documents directory
    */
   func save() {
-//    print("Bundle url is \(Bundle.main.bundleURL)")
-    
-    // This lives longer. iOS won't purge it
-    print("FileManager documentsDirectory is \(FileManager.documentsDirectoryURL)")
-    
-    // iOS Can purge this directory at any time
-//    print("FileManager Temp \(FileManager.default.temporaryDirectory)")
-    
-    // Get encoder
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-    
-    if let data = try? encoder.encode(prioritizedTasks) {
-      do {
-        print("Writing to \(fileURL.absoluteString)")
-        try data.write(to: fileURL, options: .atomicWrite)
-        print("Successfully written to file")
-      } catch {
-        print("Unable to write to file \(error)")
-      }
-    } else {
-      fatalError("Unable to encode prioritzedTasks")
-    }
+    storeAsJson()
+    storeAsPlist()
   }
   
   /** Loads JSON data and stores in @Published property */
@@ -134,6 +121,50 @@ final class TaskStore: ObservableObject {
       self.prioritizedTasks = [prioritizedTasks]
     } else {
       fatalError("Unable to load data or decode to model")
+    }
+  }
+  
+  private func storeAsJson() {
+    // print("Bundle url is \(Bundle.main.bundleURL)")
+    
+    // This lives longer. iOS won't purge it
+//    print("FileManager documentsDirectory is \(FileManager.documentsDirectoryURL)")
+    
+    // iOS Can purge this directory at any time
+    //    print("FileManager Temp \(FileManager.default.temporaryDirectory)")
+    
+    // Get encoder
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+    
+    if let data = try? encoder.encode(prioritizedTasks) {
+      do {
+        print("Writing to \(jsonFileURL.absoluteString)")
+        try data.write(to: jsonFileURL, options: .atomicWrite)
+        print("Successfully written to file")
+      } catch {
+        print("Unable to write to file \(error)")
+      }
+    } else {
+      fatalError("Unable to encode prioritzedTasks")
+    }
+  }
+  
+  private func storeAsPlist() {
+    let encoder = PropertyListEncoder()
+    // Could save a .binary for a smaller file size
+    encoder.outputFormat = .xml
+    
+    if let data = try? encoder.encode(prioritizedTasks) {
+      do {
+        print("Writing to \(plistFileURL.absoluteString)")
+        try data.write(to: plistFileURL, options: .atomicWrite)
+        print("Successfully written to file")
+      } catch {
+        print("Unable to write to file \(error)")
+      }
+    } else {
+      fatalError("Unable to encode prioritzedTasks")
     }
   }
 }
