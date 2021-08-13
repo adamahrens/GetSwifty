@@ -49,3 +49,13 @@ In order to perform work you have to pass `URLSessionTask` to the `URLSession` t
 * `DownloadTask` response is written to file. Useful for downloading images, audio, videos
 
 You must call `resume` on all tasks since they start in a waiting state.
+
+### Downloading & Uploading
+
+When downloading/uploading is crucial to understand priorities & cachce policies.
+
+Priority suggestion helps determine how the OS should handle the request. If that data isn't important the system might not execute immediately. Priority goes from `0-1` with options such as `defaultPriority`, `lowPriority: 0`, and `.highPriority: 1`
+
+Can also cache response to continually return it. 
+
+Both Download and Upload have delegate callbacks for details on task
