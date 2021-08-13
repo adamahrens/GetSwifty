@@ -77,6 +77,8 @@ defaultSession.dataTask(with: url) { data, response, error in
     
     // Fetch artwork for first
     if let artistMatch = result.matches.first, let url = URL(string: artistMatch.artworkUrlString) {
+      
+      // Download image into memory
       defaultSession.dataTask(with: url) { data, response, error in
         guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
           print("Invalid response")
@@ -90,6 +92,21 @@ defaultSession.dataTask(with: url) { data, response, error in
         
         let image = UIImage(data: data)
         let artwork = [image]
+      }.resume()
+      
+      // Download image to file
+      defaultSession.downloadTask(with: url) { url, response, error in
+        guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
+          print("Invalid response")
+          return
+        }
+        
+        guard let fileUrl = url else {
+          print("Download didn't complete present")
+          return
+        }
+        
+        print(fileUrl.absoluteString)
       }.resume()
     }
   } else {
