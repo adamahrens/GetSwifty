@@ -16,6 +16,13 @@ struct ContentView: View {
   }
   
   @State private var artistCover = ArtistCover.weezer
+  @State private var calculateDisabled = false
+  
+  // Use OperationQueue for offloading work on background threads
+  private let backgroundQueue = OperationQueue()
+  private let operation = PrimeOperation()
+  
+  private let mainQueue = OperationQueue.main
   
   var body: some View {
     VStack {
@@ -31,10 +38,13 @@ struct ContentView: View {
       Button(action: {
         // This will block the UI since it's an
         // intensive calculation
-        calculatePrimes()
+        // calculatePrimes()
+        
+        // Use Operation
+        performPrimeOperation()
       }, label: {
         Text("Calculate Primes")
-      })
+      }).disabled(calculateDisabled)
       
       Picker("Enter Sandman", selection: $artistCover) {
         ForEach(ArtistCover.allCases, id: \.self) {
@@ -48,10 +58,56 @@ struct ContentView: View {
     }
   }
   
-  private func calculatePrimes() {
-    for number in 0...8_000_000 {
+  /// Uses Operation and OperationQueue
+  /// to perform prime calculations on background thread
+  private func performPrimeOperation() {
+    // Want to do this on the main thread
+    // Luckily SwiftUI automagically
+    // delivers it on the main thread when @State
+    // variables change
+    calculateDisabled = true
+    
+    // If this was UIKit would have to run
+    // On main thread
+    /*
+     DispatchQueue.main.async {
+      self.calculateDisabled = false
+     }
+     */
+    
+    let operation = PrimeOperation()
+    
+    // Perform after PrimeOperation is complete
+    let enableButton = BlockOperation {
+      calculateDisabled = false
+    }
+    
+    // Enable is dependent on PrimeOperation completing
+    enableButton.addDependency(operation)
+    
+    // Add to the Queue for work to be performed
+    backgroundQueue.addOperation(operation)
+    backgroundQueue.addOperation(enableButton)
+    
+    // Could also just pass in a block instead of creating Operation subclasses for all body of work
+    DispatchQueue.global(qos: .userInitiated).async {
+      calculatePrimes(logPrefix: "GCD Queue")
+    }
+    
+    backgroundQueue.addOperation {
+      calculatePrimes(logPrefix: "OperationQueue")
+    }
+  }
+  
+  /**
+   * Moving to background Operation Thread
+   * To prevent blocking main
+   */
+   
+  private func calculatePrimes(logPrefix: String) {
+    for number in 0...500_000 {
       let isPrime = isPrime(number: number)
-      print("\(number) is prime? \(isPrime.description)")
+      print("\(logPrefix) \(number) is prime? \(isPrime.description)")
     }
   }
   

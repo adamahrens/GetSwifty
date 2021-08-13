@@ -11,6 +11,7 @@
 		439C766C26C576FF001546AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C766B26C576FF001546AD /* ContentView.swift */; };
 		439C766E26C576FF001546AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439C766D26C576FF001546AD /* Assets.xcassets */; };
 		439C767126C576FF001546AD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439C767026C576FF001546AD /* Preview Assets.xcassets */; };
+		439C767926C60840001546AD /* PrimeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C767826C60840001546AD /* PrimeOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		439C766D26C576FF001546AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		439C767026C576FF001546AD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		439C767226C576FF001546AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		439C767826C60840001546AD /* PrimeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				439C766926C576FF001546AD /* ConcurrencyApp.swift */,
 				439C766B26C576FF001546AD /* ContentView.swift */,
+				439C767826C60840001546AD /* PrimeOperation.swift */,
 				439C766D26C576FF001546AD /* Assets.xcassets */,
 				439C767226C576FF001546AD /* Info.plist */,
 				439C766F26C576FF001546AD /* Preview Content */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				439C766C26C576FF001546AD /* ContentView.swift in Sources */,
+				439C767926C60840001546AD /* PrimeOperation.swift in Sources */,
 				439C766A26C576FF001546AD /* ConcurrencyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

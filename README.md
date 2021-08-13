@@ -32,4 +32,20 @@ We could work directly with threads such as `NSThread`. Which can be harder. Ano
 
 `OperationQueue` is another higher level framework built on top of `GCD`. It allows setting up depdencies and cancel operations easily.
 
+Instead of just creating numerous `Operation` subclasses can just use closures with `OperationQueue#addOperation` or use the provided `BlockOperation` subclass that takes a closure in the `init`
+
 `Combine` is the most recent which allows switching between threads with operations such as `subscribeOn` `receive`
+
+The `Main` thread is not designed for concurrent threads to access it.
+
+`URLSessionConfiguration` is used to configure how you want your `URLSession` to behave. Want it in privacy mode? Run on background threads? Store credentials?. It comes with a `default`, `empheral` is almost like incognito. It won't store cookies or cache to disk.
+
+All configurations must be done before creating the `URLSession`. Updates after the fact do nothing.
+
+In order to perform work you have to pass `URLSessionTask` to the `URLSession` these could be `dataTask` or `downloadTask` or `uploadTask`. 
+
+* `DataTask` response returned in memory
+* `UploadTask` similar to datatask but easier to provide request body
+* `DownloadTask` response is written to file. Useful for downloading images, audio, videos
+
+You must call `resume` on all tasks since they start in a waiting state.
