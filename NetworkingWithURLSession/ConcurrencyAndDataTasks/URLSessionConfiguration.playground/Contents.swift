@@ -106,6 +106,17 @@ defaultSession.dataTask(with: url) { data, response, error in
           return
         }
         
+        // Save to documents directory
+        if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+          let filePath = documentsDirectory.appendingPathComponent("AlbumArtwork").appendingPathExtension("png")
+          
+          do {
+            print(filePath.absoluteString)
+            try FileManager.default.copyItem(at: fileUrl, to: filePath)
+          } catch {
+            fatalError("Unable to copy temp file to documents directory")
+          }
+        }
         print(fileUrl.absoluteString)
       }.resume()
     }
