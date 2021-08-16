@@ -61,7 +61,6 @@ struct MusicItem: Codable, Identifiable  {
     case preview = "previewUrl"
     case artwork = "artworkUrl100"
   }
-  
 }
 
 extension MusicItem {

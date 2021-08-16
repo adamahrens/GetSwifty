@@ -36,14 +36,56 @@ struct SongDetailView: View {
 
   @Binding var musicItem: MusicItem
   @State private var playMusic = false
+  @State private var musicImage = UIImage(named: "c_urlsession_card_artwork")!
+  @ObservedObject var songDownloader = SongDownload()
   
-  var musicImage: UIImage? = nil
+  /// Attempts to download iTunes preview mp3 if it hasn't already fetched it
+  private func attemptDownload() {
+    // Ensure we have a previewUrl to fetch from and
+    // we haven't already downloaded it.
+    guard
+      let previewUrl = musicItem.previewUrl, songDownloader.downloadedLocation == nil
+    else {
+      // We can play the downloaded preview
+      playMusic = true
+      return
+    }
+    
+    switch songDownloader.state {
+      case .waiting:
+        songDownloader.fetchSong(at: previewUrl)
+      case .downloading:
+        songDownloader.pause()
+      case .paused:
+        songDownloader.resume()
+      case .finished:
+        playMusic = true
+    }
+  }
+  
+  private func fetchAlbumArt() {
+    guard
+      let url = URL(string: musicItem.artwork)
+    else { return }
+    
+    URLSession.shared.downloadTask(with: url) { locationUrl, response, error in
+      if let e = error {
+        print("Error downloading image \(e)")
+      }
+      
+      if let location = locationUrl,
+         let data = try? Data(contentsOf: location),
+         let image = UIImage(data: data) {
+        musicImage = image
+      }
+    }.resume()
+  }
   
   var body: some View {
     VStack {
       GeometryReader { reader in
         VStack {
-          Image("c_urlsession_card_artwork")
+          Image(uiImage: musicImage)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: reader.size.height / 2)
@@ -52,18 +94,27 @@ struct SongDetailView: View {
             .shadow(radius: 10)
           Text("\(self.musicItem.trackName) - \(self.musicItem.artistName)")
           Text(self.musicItem.collectionName)
-          Button(action: {}) {
-            Text("Download")
+          
+          if songDownloader.state == SongDownload.DownloadState.downloading || songDownloader.state == SongDownload.DownloadState.paused {
+            ProgressView("Downloading...", value: songDownloader.downloadedAmount, total: 1.0)
+              .padding()
+          }
+
+          Button(action: attemptDownload) {
+            Text(songDownloader.downloadedLocation == nil ? "Download" : "Listen")
           }
         }
       }
     }
+    .onAppear(perform: fetchAlbumArt)
+    .sheet(isPresented: $playMusic, content: {
+      AudioPlayer(songUrl: songDownloader.downloadedLocation!)
+    })
   }  
 }
 
 
 struct SongDetailView_Previews: PreviewProvider {
-
   
   struct PreviewWrapper: View {
     @State private var musicItem = MusicItem(id: 192678693, artistName: "Leonard Cohen", trackName: "Hallelujah", collectionName: "The Essential Leonard Cohen", preview: "https://audio-ssl.itunes.apple.com/itunes-assets/Music/16/10/b2/mzm.muynlhgk.aac.p.m4a", artwork: "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/77/17/ab/7717ab31-46f9-48ca-7250-9f565306faa7/source/1000x1000bb.jpg")

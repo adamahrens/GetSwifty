@@ -58,4 +58,16 @@ Priority suggestion helps determine how the OS should handle the request. If tha
 
 Can also cache response to continually return it. 
 
-Both Download and Upload have delegate callbacks for details on task
+Both Download and Upload have delegate callbacks for details on task. Can use those to present progressViews or other detailed information.
+
+`NetworkLinkConditioner` can be used to simulate your network speeds. Download from Apple Developer Tools
+
+Network tasks provide the ability to cancel, pause, and resuming. When you `pause` store the provided `Data` to then pass to `resume`
+
+### Background Downloading & Websockets
+
+Aside from the `Data`, `Upload` and `Download` tasks. We have two additional ones for `WebSocket` and `Stream`.
+
+In order to support your app to download in the background. You need to configure your `URLSessionConfig.networkServiceType` to be of `.background`. You'll need to implement the `delegate` methods. iOS will eventually call an `AppDelegate` callback.
+
+### URLSession & Combine
