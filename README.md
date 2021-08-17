@@ -70,4 +70,10 @@ Aside from the `Data`, `Upload` and `Download` tasks. We have two additional one
 
 In order to support your app to download in the background. You need to configure your `URLSessionConfig.networkServiceType` to be of `.background`. You'll need to implement the `delegate` methods. iOS will eventually call an `AppDelegate` callback.
 
+Websockets are used for two way connection/communication.
+
 ### URLSession & Combine
+
+Combine is a reactive framework. A `Publisher` emits events over time to all `Subscribers` that are listening for it.
+
+Use `compactMap` to publish only non-nil. Great for when mapping data from the response to a decodable object
