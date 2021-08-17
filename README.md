@@ -77,3 +77,22 @@ Websockets are used for two way connection/communication.
 Combine is a reactive framework. A `Publisher` emits events over time to all `Subscribers` that are listening for it.
 
 Use `compactMap` to publish only non-nil. Great for when mapping data from the response to a decodable object
+
+Use `Publishers.zip` when waiting for multiple requests to complete before updating the main thread with the data. Such as fetching an image and mp3 file.
+
+Use `flatMap` to chain requests and establish dependencies
+
+Combine has it's own error operators. Can also use the `retry` operator to allow calling a request again if it errors.
+
+We can use `tryMap` and then `throw` our custom errors. Then we can `mapError` to our custom error enum
+
+
+### Authentication and Cookies
+
+AppDelegate has receive authentication challenge if the method is implemented . Otherwise it can go to the URLSession challenge delegate method. It's of type `URLAuthenticationChallenge`
+
+`Application Transport Security` for helping secure your connection to the server. Built in since El Capitan.
+
+Cookies are automatically stored in the shared cookie store. Can get the `HTTPCookie` from the `HTTPResponse`
+
+Use `HTTPCookieStorage` for deleting and storing cookies
