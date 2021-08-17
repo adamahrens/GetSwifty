@@ -107,7 +107,7 @@ session.dataTask(with: request) { data, response, error in
 
 // Working with cookies
 
-let google = URL(string: "https://www.google.com")!
+let google = URL(string: "https://www.raywenderlich.com")!
 let googleRequest = URLRequest(url: google)
 session.dataTask(with: googleRequest){ data, response, error in
   // Need to access cookies from response header fields
@@ -117,6 +117,7 @@ session.dataTask(with: googleRequest){ data, response, error in
 //      print(cookies)
       
       let blah = HTTPCookie.cookies(withResponseHeaderFields: cookies, for: google)
+      print("----- All Cookies from Response ------\n")
       blah.forEach { cookie in
         print("\(cookie.name) <--->  \(cookie.value)")
       }
