@@ -96,3 +96,5 @@ AppDelegate has receive authentication challenge if the method is implemented . 
 Cookies are automatically stored in the shared cookie store. Can get the `HTTPCookie` from the `HTTPResponse`
 
 Use `HTTPCookieStorage` for deleting and storing cookies
+
+## ConcurrencyWithGCDAndOperations
