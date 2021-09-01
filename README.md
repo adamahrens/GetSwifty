@@ -86,7 +86,6 @@ Combine has it's own error operators. Can also use the `retry` operator to allow
 
 We can use `tryMap` and then `throw` our custom errors. Then we can `mapError` to our custom error enum
 
-
 ### Authentication and Cookies
 
 AppDelegate has receive authentication challenge if the method is implemented . Otherwise it can go to the URLSession challenge delegate method. It's of type `URLAuthenticationChallenge`
