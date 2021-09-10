@@ -38,6 +38,32 @@ Combine is on iOS 13 and later.
 
 ## Grand Central Dispatch
 
+We'll learn about `DispatchGroup`, wrapping async function to be synchronous, `DispatchSemaphore`
+
+Concurrency is inheritly challengings as task don't run the same way each time. Need to watch out for Deadlocks(Locks on resources the results in circular dependency) or Data Races (ATM 1& 2 accessing shared resource). Priority Inversion is when a low priority task blocks resouces that are needed by a high priority resource.
+
+Swift Arrays and Dictionaries are not thread safe. How to make a class thread safe?
+
+Edit the Xcode Scheme Diagnositics to include Thread Sanitizer that can help find some of these data race issues.
+
+`DispatchGroup` are used to dispatch tasks to queue but run them as a group. The `notify` callback is used to specifiy a queue and callback when all the tasks have completed.
+
+Wrap async function with `enter` and `leave` calls. For example images downloaded with URLSessions.
+
+`DispatchSemaphore` was used to control access to number of resources. How many things can execute at once. You use `wait` to start it and `signal` when it's not longer needed.
+
 ## Operations I
+
+Operations allow you to wrap up units of work. Usually you subclass `Operation` to make reusable bodies of work. Override the `main` methhod to execute the work. An Operation has several states `isReady` -> `isExecuting` which can then go to `isCancelled` or `isFinished`. Run operations by calling `start` on it.
+
+Can use the default `BlockOperation` that allows passing it a closure. `BlockOperations` run concurrently. If you want serial you need to add to a private serial queue.
+
+Operations is a bit better than GCD. It allows more dependency 
+
+The real power of operations is when used with `OperationQueue` then you don't have to call start yourself. `OperationQueue` handle the scheduling and dependencies for you.
+
+To make an `OperationQueue` serial set it's `maxConcurrentOperationCount` to `1`.
+
+You add operations via a closure or subclass of `Operation`
 
 ## Operations II
