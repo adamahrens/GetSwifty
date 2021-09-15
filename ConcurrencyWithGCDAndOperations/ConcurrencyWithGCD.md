@@ -66,4 +66,10 @@ To make an `OperationQueue` serial set it's `maxConcurrentOperationCount` to `1`
 
 You add operations via a closure or subclass of `Operation`
 
+To use an async task (URLSession.shared.dataTask) in an `Operation` you need to manage some of the state yourself. Requires `KVO` and use a custom state to set to finished.
+
 ## Operations II
+
+Be careful with using dependencies. Could create a deadlock.
+
+CoreData is not thread safe. Any `NSManagedObject` can not be shared across threads. Ensure you said up parent/child context relationship. When using callbacks use the parent to look up the entity by the objectId.
