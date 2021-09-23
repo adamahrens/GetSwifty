@@ -49,10 +49,41 @@ Use `type erasure` to use generics and protocol with associated types as regular
 
 ## Sequences, Collections, & Algorithms
 
+Using protocols with generic functions allows new types that conform get common functions for free instead of maintaining your own methods (sort, first, etc).
+
+Notable Protocols are
+
+- Sequence: Most primitive type that lets your iterate through list of  values
+- IteratorProtocol: behind the scenes that knows how to get the next element and returns `nil` when done.
+- Collection: Adds O(1) lookup if you know the index, forward traversing
+- MutableCollection: Allows mutating individual elements
+- BidirectionalCollection: Allows traversing forward/backwards
+
+Sequences can also your `type erasure` to hide complexity often returning `AnySequence` so hide the underlying details with a simple extension
+
+```
+extension Sequence {
+    func eraseToAnySequence() -> AnySequence<Element> {
+        AnySequence(self)
+    }
+}
+```
+
 ## Strings
 
 ## Codable
 
+Protocol for decoding/encoding data to various formats (JSON, Plist, Custom, etc). If all the properties of a model object themeselves conform to `Codable` then simply adopting to protocol and Swift will automagically provide conformance for encoding/decoding.
+
+Great when keys are the ssame and want to have Swift handle converting a `String` date to `Date` or `String` url to `URL`
+
+`CodingKey` is a simple protocol for decribing how a key of a specific model property is represented. If you specify a nested CodingKey enum then you don't need to specifiy the `keyDecodingStrategy` on the decoder.
+
+3 Common containers `Keyed`, `Unkeyed`, and `SingleValue`. Keyed is the most common and is basically a dictionary keyed by set of `CodingKey`s. Unkeyed is most commonly assocaited with arrays of values.
+
+Can specify a `dateDecodingStrategy` to use a custom formatter for dates
+
+`JSONEncoder` also has options for output formatting and `key/date` encodingStrategy
 ## Unsafe
 
 ## High Order Functions

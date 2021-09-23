@@ -13,4 +13,8 @@ Both are `protocols` that have `associatedtype` for Input and Error.
 
 `sink` and `assign` are the two ways to subscribe to a `Publisher`
 
-`Subjects` are used to publish values and help bridge to imperative codebases
+`Subjects` are used to publish values and help bridge to imperative codebases. You have `PassThrough` and `CurrentValue`
+
+`subscribe(on:)` create the subscription or start the work on the specified scheduler. Do this to specify what schedule they should do the work on. This can be used to perform work on background queues
+
+`receive(on:)` use this to specify the main queue so you can do work on the main when receiving values emitted from a background publisher
