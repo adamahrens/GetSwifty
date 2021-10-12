@@ -9,3 +9,41 @@ Swift allows `Static Dispatch` which is super fast at compile time It can someti
 `Protocol Oriented Programming`. OOP only allows one super  class, have to use reference semantics instead of value semantics. `Protocols` are a type of blueprint and behavior for types to adopt. We don't have memory layout restrictions.
 
 Instead of a v-table in the array example above, Protocols use a Protocol Witness Table for dynamic dispatch.
+
+Protocols allows retroactive modeling to classes we don't have the source code for.
+
+```
+protocol Geometry {
+  func area() -> Double
+}
+
+extension Circle: Geometry {
+  func area() -> Double {
+    Double(.pi * radius * radius)
+  }
+}
+
+extension CGRect: Geometry {
+  func area() -> Double {
+    Double(size.width * size.height)
+  }
+}
+```
+
+Generics can be used for functions, initializers, structs, enums, and classes. `<>` is used to specify the type.
+
+`Paremetric Polymorphism` is the more formal name for Generics
+
+Generic Constraints for writing algorithms on generic types.
+
+`Associated Types` How to make protocols themselves generic?
+
+```
+protocol Pixel {
+    associatedtype Channel
+}
+
+struct Gray8: Pixel {
+    typealias CHannel = UInt8
+}
+```
