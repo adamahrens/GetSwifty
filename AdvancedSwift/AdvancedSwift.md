@@ -36,14 +36,73 @@ Generics can be used for functions, initializers, structs, enums, and classes. `
 
 Generic Constraints for writing algorithms on generic types.
 
-`Associated Types` How to make protocols themselves generic?
+`Associated Types` How to make protocols themselves generic? They can also have their own Constraints
 
 ```
 protocol Pixel {
-    associatedtype Channel
+    associatedtype Channel: Comparable
 }
 
 struct Gray8: Pixel {
     typealias CHannel = UInt8
 }
 ```
+
+`Condtional Conformance` 
+
+`Values vs References`. Value types provide isolation and speed since they're fast to copy. References allow shared ownership.
+
+Action at a distance is the ability to inject a reference type into a value type such as a `struct` which then allows you to manipulate the reference. Great for testing.
+
+`var` vs `let` on a value type immediately dictates if it can be mutated or not. However, with a reference type specifying it as a let just means the pointer in memory won't change.
+
+What happens when you have an array of value type and references.
+
+Every method in a class, struct, or enum gets passed a self param. However, if the method is marked mutating in `struct` and `enum` it's marked as `inout`. This is what triggers the `didSet` calls.
+
+`Law of Exclusivity` is the law restricts a variable from being written too by multiple contexts.
+
+`COW` or Copy On Write. Makes a deep copy to a reference type before you begin to modify. All variables could still reference the same type until a modification needs to occur.
+
+`Hashable` is used for quick O(1) look up in a dictionary. A type that is `Hashable` is also `Equatable`
+
+`Phantom Types` are types that mask a simple type to provide more compiler support but aren't exposed to a public interface. This examples shows it's use case
+
+```
+struct Named<T>: Hashable, ExpressibleByStringLiteral, CustomStringConvertible {
+  var name: String
+  
+  init(_ name: String) {
+    self.name = name
+  }
+  
+  init(stringLiteral value: StringLiteralType) {
+    name = value
+  }
+  
+  var description: String {
+    name
+  }
+}
+
+// Phantom Types because they're never referred to in the public interface
+enum StateTag {}
+enum CapitalTag {}
+
+typealias State = Named<StateTag>
+typealias Capital = Named<CapitalTag>
+
+// This provides better documentation on what the dictionary gives us.
+var lookup: [State : Capital] = ["Alabama" : "Montgomery", "Iowa" : "Des Moines", "Minnesota" : "Saint Paul"]
+
+```
+
+When building Custom Operators you have to think about `Name`, `Arity & Position`, `Precedence`, and `Associativity`
+
+`Name` must include symbols and mathmatical operators
+
+Short circuting is the process of evaluating a condition before an expensive operation
+
+` if condition && expensive()`
+
+Here if the condition is false it'll short circuit out and not evluated the result of `expensive`
