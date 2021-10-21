@@ -33,3 +33,5 @@ Order of the `NSSortDescriptor` you put into the sortDescriptors property of the
 `NSPredicate` class is used to filter results even more. NSPredicate has it's own formatting language for filtering. For example `NSPredicate(format: "%K == %@", "isCompleted", NSNumber(booleanLiteral: false))` %K is for keyPath.
 
 `NSCommpoundPredicate` to combine with multiple `NSPredicate` instances. Allows easily AND, OR, NOT operations to occur
+
+Delete Rules are `Deny` which means you can't delete a Reminder that had an associted Tag. `Nullify` only deletes the relationship
