@@ -106,3 +106,19 @@ Short circuting is the process of evaluating a condition before an expensive ope
 ` if condition && expensive()`
 
 Here if the condition is false it'll short circuit out and not evluated the result of `expensive`
+
+`Sequence` is the root Protocol. The return a set of values one at a time. Returns a `Iterator` type that has a `next()` that keeps returning values until it has no more and hits a `nil`
+
+`AnySequence` is used to type erase. It essentially builds a new Sequence while hiding the underlying sequence.
+
+`Collections` build off `Sequence` and allow to revist elements. Think index in an Array
+
+`Eager` vs `Lazy`. Use `numbers.lazy.filter` to wrap it in a `LazyCollection` type. This won't perform the filter until it's on demand requested
+
+Swift uses `ARC` automatic reference counting. When a reference count drops to 0 it's `deinited` This provided great resource utilization. However, we have to understand the object graph.
+
+`Weak` is used to break retain cycles as it doesn't increase the reference count. Always used on `var`, always used on an `Optional` type
+
+`Unowned` tells Swift that it also doesn't need to update reference count. However, unowned used with non optionals. So you wouldn't used it for a `delegate`. Unowned is making a strong statement that a parent will outlive a child.
+
+`Closures` are first class types. Swift guarantees memory safety. So Closures copy objects into a private environment. Ensuring variables you access in the body of the closure will increase the reference count for them.

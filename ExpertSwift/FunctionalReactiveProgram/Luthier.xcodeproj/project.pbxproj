@@ -11,6 +11,7 @@
 		18D775C722AD944400AE281E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D775C622AD944400AE281E /* Assets.xcassets */; };
 		18D775CA22AD944400AE281E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D775C922AD944400AE281E /* Preview Assets.xcassets */; };
 		18D775D822AD963800AE281E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18D775DA22AD963800AE281E /* LaunchScreen.storyboard */; };
+		433BF61A2721E60700894AC6 /* BuildViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433BF6192721E60700894AC6 /* BuildViewModel.swift */; };
 		78276C4A2540A1E200835AB2 /* BuildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276C492540A1E200835AB2 /* BuildView.swift */; };
 		78276C532540A41800835AB2 /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276C522540A41800835AB2 /* CheckoutView.swift */; };
 		78276C572540A42B00835AB2 /* Guitar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276C562540A42B00835AB2 /* Guitar.swift */; };
@@ -36,6 +37,7 @@
 		18D775C922AD944400AE281E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		18D775CE22AD944400AE281E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18D775DE22AD96B400AE281E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		433BF6192721E60700894AC6 /* BuildViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildViewModel.swift; sourceTree = "<group>"; };
 		78276C492540A1E200835AB2 /* BuildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildView.swift; sourceTree = "<group>"; };
 		78276C522540A41800835AB2 /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
 		78276C562540A42B00835AB2 /* Guitar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guitar.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				78276C492540A1E200835AB2 /* BuildView.swift */,
+				433BF6192721E60700894AC6 /* BuildViewModel.swift */,
 				A2189A2325BB7EBA00522C53 /* GuitarView.swift */,
 			);
 			path = Build;
@@ -242,6 +245,7 @@
 				1839F4B025190F2A00BB00F1 /* AppMain.swift in Sources */,
 				78276C4A2540A1E200835AB2 /* BuildView.swift in Sources */,
 				A2922036262EC4D300448882 /* MockExchange.swift in Sources */,
+				433BF61A2721E60700894AC6 /* BuildViewModel.swift in Sources */,
 				78276C572540A42B00835AB2 /* Guitar.swift in Sources */,
 				7836D5002538E17F00326B1A /* GuitarService.swift in Sources */,
 				78D8EC93254EA34F00D8A64E /* ActionButton.swift in Sources */,

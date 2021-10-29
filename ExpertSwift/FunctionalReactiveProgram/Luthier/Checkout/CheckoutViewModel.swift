@@ -7,7 +7,7 @@ import Combine
 import Foundation
 
 @dynamicMemberLookup
-class CheckoutViewModel: ObservableObject {
+final class CheckoutViewModel: ObservableObject {
   private let info: CheckoutInfo
   
   // Input/Bindings
@@ -16,9 +16,16 @@ class CheckoutViewModel: ObservableObject {
     duration: "",
     price: 0
   )
+  
+  @Published var currency = Currency.usd
 
   // Outputs
   @Published var shippingPrices = [ShippingOption: String]()
+  @Published var basePrice = ""
+  @Published var additionsPrice = ""
+  @Published var totalPrice = ""
+  @Published var shippingPrice = ""
+  @Published var isUpdatingCurrency = false
   
   var checkoutButton: String {
     self.isAvailable ? "Order now" : "Model unavailable"
@@ -26,7 +33,6 @@ class CheckoutViewModel: ObservableObject {
   
   init(info: CheckoutInfo) {
     self.info = info
-    
     self.selectedShippingOption = self.shippingOptions[0]
     self.shippingPrices = self.shippingOptions
       .reduce(into: [ShippingOption: String]()) { options, option in
