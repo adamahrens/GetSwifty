@@ -32,25 +32,31 @@
 
 import SwiftUI
 
-struct GameSlider: View {
-  let color: Color
-  
-  @Binding var value: Double
+struct BevelText: View {
+  let text: String
+  let size: CGSize
   
   var body: some View {
-    HStack {
-      Text("0")
-      Slider(value: $value)
-        .accentColor(color)
-      Text("255")
-    }
-    .padding(.horizontal)
-    .font(.subheadline)
+    Text(text)
+      .frame(width: size.width, height: size.height)
+      .background(
+        ZStack {
+          Capsule()
+            .fill(Color.element)
+            .northWestShadow(radius: 3, offset: 1)
+          Capsule()
+            .inset(by: 3)
+            .fill(Color.element)
+            .southEastShadow(radius: 3, offset: 1)
+        }
+      )
   }
 }
 
-struct GameSlider_Previews: PreviewProvider {
+struct BevelText_Previews: PreviewProvider {
   static var previews: some View {
-    GameSlider(color: .red, value: .constant(0.5))
+    BevelText(text: "R: ???, G: ???, B: ???", size: CGSize(width: 300, height: 64))
+      .frame(width: 300, height: 100)
+      .previewLayout(.sizeThatFits)
   }
 }

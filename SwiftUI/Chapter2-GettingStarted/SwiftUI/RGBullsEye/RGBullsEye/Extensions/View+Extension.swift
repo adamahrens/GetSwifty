@@ -32,25 +32,16 @@
 
 import SwiftUI
 
-struct GameSlider: View {
-  let color: Color
-  
-  @Binding var value: Double
-  
-  var body: some View {
-    HStack {
-      Text("0")
-      Slider(value: $value)
-        .accentColor(color)
-      Text("255")
-    }
-    .padding(.horizontal)
-    .font(.subheadline)
+extension View {
+  func northWestShadow(radius: CGFloat = 16.0, offset: CGFloat = 8.0) -> some View {
+    return self
+      .shadow(color: .highlight, radius: radius, x: -offset, y: -offset)
+      .shadow(color: .shadow, radius: radius, x: offset, y: offset)
   }
-}
-
-struct GameSlider_Previews: PreviewProvider {
-  static var previews: some View {
-    GameSlider(color: .red, value: .constant(0.5))
+  
+  func southEastShadow(radius: CGFloat = 16.0, offset: CGFloat = 8.0) -> some View {
+    return self
+      .shadow(color: .shadow, radius: radius, x: -offset, y: -offset)
+      .shadow(color: .highlight, radius: radius, x: offset, y: offset)
   }
 }

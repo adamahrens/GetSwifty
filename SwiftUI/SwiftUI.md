@@ -6,4 +6,4 @@ Use `@Binding var yourData: Bool` instead of `@State` when you have reusable vie
 
 Referring to `object.property` is read only. Using `$object.property` is a read-write binding
 
-`Modifiers` take in a view, change it, and return a new view. Therefore the order in which you apply modifiers can make a difference.
+`Modifiers` take in a view, change it, and return a new view. Therefore the order in which you apply modifiers can make a difference. For example applying a `border` and then `padding` is different than `padding` and applying `border`

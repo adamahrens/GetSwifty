@@ -34,16 +34,28 @@ import SwiftUI
 
 struct ColorCircle: View {
   let rgb: RGB
+  let size: CGSize
   
   var body: some View {
-    Circle()
-      .fill(Color(rgbStruct: rgb))
-      .padding(.top, 8.0)
+    ZStack {
+      Circle()
+        .fill(Color.element)
+        .northWestShadow()
+      Circle()
+        .fill(Color(rgbStruct: rgb))
+        .padding(20)
+    }
+    .frame(width: size.width, height: size.height)
   }
 }
 
 struct ColorCircle_Previews: PreviewProvider {
   static var previews: some View {
-    ColorCircle(rgb: RGB.random())
+    ZStack {
+      Color.element
+      ColorCircle(rgb: RGB.random(), size: CGSize(width: 200, height: 200))
+    }
+    .frame(width: 300, height: 300)
+    .previewLayout(.sizeThatFits)
   }
 }

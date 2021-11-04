@@ -30,27 +30,29 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import Foundation
 import SwiftUI
 
-struct GameSlider: View {
-  let color: Color
+struct NeumorphicButtonStyle: ButtonStyle {
+  let size: CGSize
   
-  @Binding var value: Double
-  
-  var body: some View {
-    HStack {
-      Text("0")
-      Slider(value: $value)
-        .accentColor(color)
-      Text("255")
-    }
-    .padding(.horizontal)
-    .font(.subheadline)
-  }
-}
-
-struct GameSlider_Previews: PreviewProvider {
-  static var previews: some View {
-    GameSlider(color: .red, value: .constant(0.5))
+  func makeBody(configuration: Configuration) -> some View {
+    configuration
+      .label
+      .opacity(configuration.isPressed ? 0.2 : 1)
+      .frame(width: size.width, height: size.height)
+      .background(
+        Group {
+          if configuration.isPressed {
+            Capsule()
+              .fill(Color.element)
+              .southEastShadow()
+          } else {
+            Capsule()
+              .fill(Color.element)
+              .northWestShadow()
+          }
+        }
+      )
   }
 }

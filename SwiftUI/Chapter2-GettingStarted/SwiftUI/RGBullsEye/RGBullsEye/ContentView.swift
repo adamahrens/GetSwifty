@@ -37,47 +37,63 @@ struct ContentView: View {
   @State var guess: RGB
   @State var showScore = false
   
+  /// For adapting to screen size
+  ///
+  private let circle = CGFloat(0.5)
+  private let labelWidth = CGFloat(0.53)
+  private let labelHeight = CGFloat(0.06)
+  private let buttonWidth = CGFloat(0.87)
+  
   var body: some View {
-    VStack {
-   
-      ColorCircle(rgb: game.target)
-      
-      if showScore {
-        Text(game.target.intString())
-          .foregroundColor(.white)
-          .padding()
-      } else {
-        Text("R: ???, G: ???, B: ???")
-          .foregroundColor(.white)
-          .padding()
-      }
-      
-      ColorCircle(rgb: guess)
-      
-      Text(guess.intString())
-        .foregroundColor(.white)
-        .padding()
-      
-      GameSlider(color: .red, value: $guess.red)
-      GameSlider(color: .green, value: $guess.green)
-      GameSlider(color: .blue, value: $guess.blue)
-      
-      Button("Try Guess") {
-        showScore = true
-        game.check(guess: guess)
-      }.alert(isPresented: $showScore) {
-        Alert(title: Text("Your Score"), message: Text(String(game.scoreRound)), dismissButton: .default(Text("Ok")) {
-          game.startNewRound()
-          guess = RGB()
-        })
+    GeometryReader { reader in
+      ZStack {
+        Color.element
+          .edgesIgnoringSafeArea(.all)
+        
+        VStack {
+          ColorCircle(rgb: game.target, size: CGSize(width: reader.size.width * circle, height: reader.size.width * circle))
+          
+          if showScore {
+            BevelText(text: game.target.intString(), size: CGSize(width: reader.size.width * labelWidth, height: reader.size.height * labelHeight))
+           
+          } else {
+            BevelText(text: "R: ???, G: ???, B: ???", size: CGSize(width: 200, height: 48))
+          }
+          
+          ColorCircle(rgb: guess, size: CGSize(width: reader.size.width * circle, height: reader.size.width * circle))
+          
+          BevelText(text: guess.intString(), size: CGSize(width: reader.size.width * labelWidth, height: reader.size.height * labelHeight))
+
+          GameSlider(color: .red, value: $guess.red)
+          GameSlider(color: .green, value: $guess.green)
+          GameSlider(color: .blue, value: $guess.blue)
+          
+          Button("Try Guess") {
+            showScore = true
+            game.check(guess: guess)
+          }.buttonStyle(NeumorphicButtonStyle(size: CGSize(width: reader.size.width * buttonWidth, height: reader.size.height * labelHeight)))
+        
+          .alert(isPresented: $showScore) {
+            Alert(title: Text("Your Score"), message: Text(String(game.scoreRound)), dismissButton: .default(Text("Ok")) {
+              game.startNewRound()
+              guess = RGB()
+            })
+          }
+        }
+          .padding(.bottom, 8.0)
+          .font(.headline)
       }
     }
-    .background(Color.black)
   }
 }
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView(guess: RGB(red: 0.8, green: 0.3, blue: 0.7))
+    Group {
+      ContentView(guess: RGB(red: 0.8, green: 0.3, blue: 0.7))
+      ContentView(guess: RGB(red: 0.8, green: 0.3, blue: 0.7)).previewDevice("iPhone 8")
+      ContentView(guess: RGB(red: 0.8, green: 0.3, blue: 0.7)).previewDevice("iPhone 8 Plus")
+      ContentView(guess: RGB(red: 0.8, green: 0.3, blue: 0.7)).previewDevice("iPhone 12 mini")
+    }
   }
 }

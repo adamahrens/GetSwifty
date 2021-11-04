@@ -32,25 +32,8 @@
 
 import SwiftUI
 
-struct GameSlider: View {
-  let color: Color
-  
-  @Binding var value: Double
-  
-  var body: some View {
-    HStack {
-      Text("0")
-      Slider(value: $value)
-        .accentColor(color)
-      Text("255")
-    }
-    .padding(.horizontal)
-    .font(.subheadline)
-  }
-}
-
-struct GameSlider_Previews: PreviewProvider {
-  static var previews: some View {
-    GameSlider(color: .red, value: .constant(0.5))
-  }
+extension Color {
+  static let element = Color("Element")
+  static let highlight = Color("Highlight")
+  static let shadow = Color("Shadow")
 }
