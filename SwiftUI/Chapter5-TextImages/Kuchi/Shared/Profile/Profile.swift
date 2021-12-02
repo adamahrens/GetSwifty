@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2021 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -30,27 +30,20 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import SwiftUI
-
-@main
-struct KuchiApp: App {
+/// Profile of the learner using the app.
+struct Profile : Codable {
+  /// (Selected) name of the learner.
+  var name: String
   
-  let userManager = UserManager()
-  
+  /// Initializes a new `Profile` with an empty `name`.
   init() {
-    userManager.load()
+    self.name = ""
   }
   
-  var body: some Scene {
-    WindowGroup {
-      RegisterView()
-        .environmentObject(userManager)
-    }
-  }
-}
-
-struct KuchiApp_Previews: PreviewProvider {
-  static var previews: some View {
-    RegisterView()
+  /// Initializes a new `Profile` with a specified name.
+  ///  - Parameters:
+  ///     - name Name of the user profile.
+  init(named name: String) {
+    self.name = name
   }
 }

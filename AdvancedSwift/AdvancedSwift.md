@@ -122,3 +122,21 @@ Swift uses `ARC` automatic reference counting. When a reference count drops to 0
 `Unowned` tells Swift that it also doesn't need to update reference count. However, unowned used with non optionals. So you wouldn't used it for a `delegate`. Unowned is making a strong statement that a parent will outlive a child.
 
 `Closures` are first class types. Swift guarantees memory safety. So Closures copy objects into a private environment. Ensuring variables you access in the body of the closure will increase the reference count for them.
+
+# Unsafe Memory Access
+
+Use unsafe memory if performance is critical and memory references are slowing it down. Could also use it when interfacing with C. It just means the compiler no longer has your back.
+
+```
+
+MemoryLayout<Int>.size // return 8
+MemoryLayout<Int>.alignment // returns 8
+MemoryLayout<Int>.stride // returns 8
+```
+
+Computed properties dont have memory requirements.
+
+# Error Handling
+
+You have `preconditions/asserts` then `Optionals` then `throws` then Swift `Result` type
+

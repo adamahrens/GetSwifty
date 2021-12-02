@@ -9,8 +9,24 @@
 /* Begin PBXBuildFile section */
 		43C4BD1D2746C72C00451009 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C4BD1C2746C72C00451009 /* WelcomeView.swift */; };
 		43C4BD1E2746C72C00451009 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C4BD1C2746C72C00451009 /* WelcomeView.swift */; };
-		57578FDE24E9D943003465A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57578FA724E9D943003465A4 /* HomeView.swift */; };
-		57578FDF24E9D943003465A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57578FA724E9D943003465A4 /* HomeView.swift */; };
+		43ED13DC27474376001BDE03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13D927474376001BDE03 /* UserManager.swift */; };
+		43ED13DD27474376001BDE03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13D927474376001BDE03 /* UserManager.swift */; };
+		43ED13DE27474376001BDE03 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13DA27474376001BDE03 /* Settings.swift */; };
+		43ED13DF27474376001BDE03 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13DA27474376001BDE03 /* Settings.swift */; };
+		43ED13E027474376001BDE03 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13DB27474376001BDE03 /* Profile.swift */; };
+		43ED13E127474376001BDE03 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13DB27474376001BDE03 /* Profile.swift */; };
+		43ED13E427474468001BDE03 /* WelcomeBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13E327474468001BDE03 /* WelcomeBackgroundView.swift */; };
+		43ED13E527474468001BDE03 /* WelcomeBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13E327474468001BDE03 /* WelcomeBackgroundView.swift */; };
+		43ED13E7274744CE001BDE03 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13E6274744CE001BDE03 /* LogoView.swift */; };
+		43ED13E8274744CE001BDE03 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13E6274744CE001BDE03 /* LogoView.swift */; };
+		43ED13EA274745B8001BDE03 /* GreetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13E9274745B8001BDE03 /* GreetingView.swift */; };
+		43ED13EB274745B8001BDE03 /* GreetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13E9274745B8001BDE03 /* GreetingView.swift */; };
+		43ED13ED2747464A001BDE03 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13EC2747464A001BDE03 /* RegisterView.swift */; };
+		43ED13EE2747464A001BDE03 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13EC2747464A001BDE03 /* RegisterView.swift */; };
+		43ED13F0274746AD001BDE03 /* BrandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13EF274746AD001BDE03 /* BrandingView.swift */; };
+		43ED13F1274746AD001BDE03 /* BrandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13EF274746AD001BDE03 /* BrandingView.swift */; };
+		43ED13F32757BA27001BDE03 /* BorderedViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13F22757BA27001BDE03 /* BorderedViewModifier.swift */; };
+		43ED13F42757BA27001BDE03 /* BorderedViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ED13F22757BA27001BDE03 /* BorderedViewModifier.swift */; };
 		57578FE224E9D943003465A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57578FAA24E9D943003465A4 /* Assets.xcassets */; };
 		57578FE324E9D943003465A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57578FAA24E9D943003465A4 /* Assets.xcassets */; };
 		57578FE424E9D943003465A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57578FAC24E9D943003465A4 /* Preview Assets.xcassets */; };
@@ -23,7 +39,15 @@
 
 /* Begin PBXFileReference section */
 		43C4BD1C2746C72C00451009 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		57578FA724E9D943003465A4 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		43ED13D927474376001BDE03 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		43ED13DA27474376001BDE03 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		43ED13DB27474376001BDE03 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		43ED13E327474468001BDE03 /* WelcomeBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeBackgroundView.swift; sourceTree = "<group>"; };
+		43ED13E6274744CE001BDE03 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		43ED13E9274745B8001BDE03 /* GreetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreetingView.swift; sourceTree = "<group>"; };
+		43ED13EC2747464A001BDE03 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		43ED13EF274746AD001BDE03 /* BrandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandingView.swift; sourceTree = "<group>"; };
+		43ED13F22757BA27001BDE03 /* BorderedViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedViewModifier.swift; sourceTree = "<group>"; };
 		57578FAA24E9D943003465A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57578FAC24E9D943003465A4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		57578FAF24E9D943003465A4 /* jp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jp.json; sourceTree = "<group>"; };
@@ -53,20 +77,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43ED13D827474350001BDE03 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				43ED13DB27474376001BDE03 /* Profile.swift */,
+				43ED13DA27474376001BDE03 /* Settings.swift */,
+				43ED13D927474376001BDE03 /* UserManager.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		43ED13E227474421001BDE03 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43ED13E327474468001BDE03 /* WelcomeBackgroundView.swift */,
+				43ED13E6274744CE001BDE03 /* LogoView.swift */,
+				43ED13E9274745B8001BDE03 /* GreetingView.swift */,
+				43ED13EF274746AD001BDE03 /* BrandingView.swift */,
+				43ED13F22757BA27001BDE03 /* BorderedViewModifier.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		57578F9024E9D943003465A4 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				57578F9224E9D943003465A4 /* Components */,
 				43C4BD1C2746C72C00451009 /* WelcomeView.swift */,
+				43ED13EC2747464A001BDE03 /* RegisterView.swift */,
 			);
 			path = Welcome;
-			sourceTree = "<group>";
-		};
-		57578F9224E9D943003465A4 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		57578FA924E9D943003465A4 /* Resources */ = {
@@ -107,7 +146,8 @@
 		57EF33FF24E89F91004ABEB2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				57578FA724E9D943003465A4 /* HomeView.swift */,
+				43ED13E227474421001BDE03 /* Components */,
+				43ED13D827474350001BDE03 /* Profile */,
 				57EF340024E89F91004ABEB2 /* KuchiApp.swift */,
 				57578FA924E9D943003465A4 /* Resources */,
 				57578F9024E9D943003465A4 /* Welcome */,
@@ -243,9 +283,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43ED13E427474468001BDE03 /* WelcomeBackgroundView.swift in Sources */,
+				43ED13ED2747464A001BDE03 /* RegisterView.swift in Sources */,
+				43ED13F32757BA27001BDE03 /* BorderedViewModifier.swift in Sources */,
 				57EF341324E89F92004ABEB2 /* KuchiApp.swift in Sources */,
+				43ED13E027474376001BDE03 /* Profile.swift in Sources */,
+				43ED13F0274746AD001BDE03 /* BrandingView.swift in Sources */,
 				43C4BD1D2746C72C00451009 /* WelcomeView.swift in Sources */,
-				57578FDE24E9D943003465A4 /* HomeView.swift in Sources */,
+				43ED13EA274745B8001BDE03 /* GreetingView.swift in Sources */,
+				43ED13DC27474376001BDE03 /* UserManager.swift in Sources */,
+				43ED13E7274744CE001BDE03 /* LogoView.swift in Sources */,
+				43ED13DE27474376001BDE03 /* Settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,9 +301,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43ED13E527474468001BDE03 /* WelcomeBackgroundView.swift in Sources */,
+				43ED13EE2747464A001BDE03 /* RegisterView.swift in Sources */,
+				43ED13F42757BA27001BDE03 /* BorderedViewModifier.swift in Sources */,
 				57EF341424E89F92004ABEB2 /* KuchiApp.swift in Sources */,
+				43ED13E127474376001BDE03 /* Profile.swift in Sources */,
+				43ED13F1274746AD001BDE03 /* BrandingView.swift in Sources */,
 				43C4BD1E2746C72C00451009 /* WelcomeView.swift in Sources */,
-				57578FDF24E9D943003465A4 /* HomeView.swift in Sources */,
+				43ED13EB274745B8001BDE03 /* GreetingView.swift in Sources */,
+				43ED13DD27474376001BDE03 /* UserManager.swift in Sources */,
+				43ED13E8274744CE001BDE03 /* LogoView.swift in Sources */,
+				43ED13DF27474376001BDE03 /* Settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +437,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -402,7 +458,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
