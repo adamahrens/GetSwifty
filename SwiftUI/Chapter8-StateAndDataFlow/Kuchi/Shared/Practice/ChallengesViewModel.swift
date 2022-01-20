@@ -69,10 +69,11 @@ class ChallengesViewModel: ObservableObject {
   ]
   
   var allAnswers: [String] { return Self.challenges.map { $0.answer }}
-  var correctAnswers: [Challenge] = []
-  var wrongAnswers: [Challenge] = []
+  var correctAnswers = [Challenge]()
+  var wrongAnswers = [Challenge]()
   
   var numberOfAnswered: Int { return correctAnswers.count }
+  
   @Published var currentChallenge: ChallengeTest?
   
   init() {
@@ -120,7 +121,6 @@ class ChallengesViewModel: ObservableObject {
     var randomChallenges: Set<Challenge>
     
     // If there are not enough challenges, return them all
-    
     if challenges.count < count {
       randomChallenges = Set(challenges)
     } else {

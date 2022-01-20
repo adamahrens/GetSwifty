@@ -34,8 +34,23 @@ import SwiftUI
 
 struct ScoreView: View {
   
-  @State var numberOfAnswered = 0
+//  @State var numberOfAnswered = 0
   
+  // We don't want ScoreView to be the Single Source of Truth
+  // We want that to exist outside of this view.
+//  @State var numberOfAnswered: Int
+  
+  // But just doing @State isn't good enough. It is a pass by value
+  // Which means the values will get out of sync. Hence @Binding
+  // This is a dumb view so we want this owned by something else
+  @Binding var numberOfAnswered: Int
+  
+  // Another way without using @State property wrapper
+  var answered = State<Int>(initialValue: 0)
+  
+  // This Property isn't State because it doesnt
+  // change over the lifetime of the View. So make it a
+  // constant
   let numberOfQuestions: Int
   
   var body: some View {
@@ -49,8 +64,10 @@ struct ScoreView: View {
 }
 
 struct ScoreView_Previews: PreviewProvider {
+  @State static var numberOfAnswered: Int = 0
+  
   static var previews: some View {
-    ScoreView(numberOfAnswered: 0, numberOfQuestions: 5)
+    ScoreView(numberOfAnswered: $numberOfAnswered, numberOfQuestions: 5)
       .previewLayout(.sizeThatFits)
       .padding()
   }

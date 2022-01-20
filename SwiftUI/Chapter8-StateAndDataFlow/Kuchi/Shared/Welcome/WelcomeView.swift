@@ -34,7 +34,15 @@ import SwiftUI
 
 struct WelcomeView: View {
   @EnvironmentObject var userManager: UserManager
-  @ObservedObject var challengesViewModel = ChallengesViewModel()
+  
+  // Since this is the root it makes sense
+  // For this to hold the observable object
+  // Going for SSOT
+//  @ObservedObject var challengesViewModel = ChallengesViewModel()
+  
+  // These are when using the modifier .environment() on a parent view
+  @EnvironmentObject var challengesViewModel: ChallengesViewModel
+  
   @State var showPractice = false
   
   @ViewBuilder
@@ -42,7 +50,8 @@ struct WelcomeView: View {
     if showPractice {
       PracticeView(
         challengeTest: $challengesViewModel.currentChallenge,
-        userName: $userManager.profile.name
+        userName: $userManager.profile.name,
+        numberOfAnswered: .constant(challengesViewModel.numberOfAnswered)
       )
     } else {
       ZStack {

@@ -38,7 +38,13 @@ struct ChoicesView : View {
   let challengeTest: ChallengeTest
   @State var challengeSolved = false
   @State var isChallengeResultAlertDisplayed = false
-  @ObservedObject var challengesViewModel = ChallengesViewModel()
+  
+  // Pull out of environment that was injected at the start
+  // Its important to note that when using .environment() modifier
+  // You don't specify a name. That means that the environment is essentially
+  // Just a bag which the ability to only have one of the same types.
+  @EnvironmentObject var challengesViewModel: ChallengesViewModel
+//  @ObservedObject var challengesViewModel = ChallengesViewModel()
 
   var body: some View {
     VStack(spacing: 25) {

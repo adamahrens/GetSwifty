@@ -37,6 +37,65 @@ struct ChallengeView: View {
   
   @State var showAnswers = false
   
+//  Will be reworked soon
+//  @State var numberOfAnswered = 0
+  
+  @Binding var numberOfAnswered: Int
+  
+  
+  // A way to subscribe to changes of the Environment
+  // Here it stores layout, color theme, etc.
+  // https://developer.apple.com/documentation/swiftui/environmentvalues
+  @Environment(\.verticalSizeClass) var verticalSizeClass
+  
+  // You need @ViewBuilder because body can potentially return multiple views.
+  @ViewBuilder
+  var body: some View {
+    if verticalSizeClass == .compact {
+      VStack {
+        HStack {
+          Button(action: {
+            showAnswers = !showAnswers
+          }) {
+            QuestionView(
+              question: challengeTest.challenge.question)
+          }
+          if showAnswers {
+            Divider()
+            ChoicesView(challengeTest: challengeTest)
+          }
+        }
+        ScoreView(
+          numberOfAnswered: $numberOfAnswered,
+          numberOfQuestions: 5
+        )
+      }
+    } else {
+      VStack {
+        Button(action: {
+          showAnswers = !showAnswers
+        }) {
+          QuestionView(
+            question: challengeTest.challenge.question)
+            .frame(height: 300)
+        }
+        ScoreView(
+          numberOfAnswered: $numberOfAnswered,
+          numberOfQuestions: 5
+        )
+        
+        if showAnswers {
+          Divider()
+          ChoicesView(challengeTest: challengeTest)
+            .frame(height: 300)
+            .padding()
+        }
+      }
+    }
+  }
+  
+  /*
+   Old way
   var body: some View {
     VStack {
       Button(action: {
@@ -46,7 +105,10 @@ struct ChallengeView: View {
           .frame(height: 300)
       }
       
-      ScoreView(numberOfQuestions: 5)
+      /* From previous example */
+//      ScoreView(numberOfAnswered: $numberOfAnswered, numberOfQuestions: 5)
+      
+      ScoreView(numberOfAnswered: $numberOfAnswered, numberOfQuestions: 5)
       
       if showAnswers {
         Divider()
@@ -56,6 +118,7 @@ struct ChallengeView: View {
       }
     }
   }
+  */
 }
 
 
@@ -69,7 +132,10 @@ struct ChallengeView_Previews: PreviewProvider {
     answers: ["Thank you", "Hello", "Goodbye"]
   )
   
+  @State static var numberOfAnswered = 0
+  
   static var previews: some View {
-    return ChallengeView(challengeTest: challengeTest)
+    return ChallengeView(challengeTest: challengeTest, numberOfAnswered: $numberOfAnswered)
+.previewInterfaceOrientation(.landscapeLeft)
   }
 }
