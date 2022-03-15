@@ -37,6 +37,12 @@ final class SuperStorageModel: ObservableObject {
   /// The list of currently running downloads.
   @Published var downloads = [DownloadInfo]()
   
+  /// JPEG allow displaying partial downloads whereas TIFF dont.
+  /// The @TaskLocal property wrapper offers a method called withValue() that allows
+  /// you to bind a value to an async task — or, simply speaking,
+  /// inject it into the task hierarchy
+  @TaskLocal static var supportsPartialDownloads = false
+  
   func status() async throws -> String {
     guard let url = URL(string: "http://localhost:8080/files/status") else {
       throw "Could not create the URL"
@@ -44,25 +50,21 @@ final class SuperStorageModel: ObservableObject {
     
     let (data, response) = try await URLSession.shared.data(from: url)
     
-    guard let httpResponse = response as? HTTPURLResponse,
-          200..<300 ~= httpResponse.statusCode
+    guard response.isStatus200Ok
     else { throw "Request was not successful "}
     
     return String(decoding: data, as: UTF8.self)
   }
   
   func availableFiles() async throws -> [DownloadFile] {
-    guard let url = URL(string: "http://localhost:8080/files/list") else {
-      throw "Could not create the URL"
-    }
+    guard let url = URL(string: "http://localhost:8080/files/list")
+    else { throw "Could not create the URL" }
     
     // Think SUSPENSION POINT when you see await
     // This method will execute soemtime in the future
     // Depends on other work and priorities
     let (data, response) = try await URLSession.shared.data(from: url)
-    
-    guard let httpResponse = response as? HTTPURLResponse,
-          200..<300 ~= httpResponse.statusCode
+    guard response.isStatus200Ok
     else { throw "Request was not successful "}
     
     guard let downloads = try? JSONDecoder().decode([DownloadFile].self, from: data)
@@ -81,9 +83,7 @@ final class SuperStorageModel: ObservableObject {
     let (data, response) = try await URLSession.shared.data(from: url, delegate: nil)
     await updateDownload(name: file.name, progress: 1.0)
     
-    guard let httpResponse = response as? HTTPURLResponse,
-          200..<300 ~= httpResponse.statusCode
-    else { throw "Request was not successful "}
+    guard response.isStatus200Ok else { throw "Request was not successful "}
     
     return data
   }
@@ -94,12 +94,48 @@ final class SuperStorageModel: ObservableObject {
   }
 
   /// Downloads a file, returns its data, and updates the download progress in ``downloads``.
-  private func downloadWithProgress(fileName: String, name: String, size: Int, offset: Int? = nil) async throws -> Data {
-    guard let url = URL(string: "http://localhost:8080/files/download?\(fileName)") else {
-      throw "Could not create the URL."
-    }
+  private func downloadWithProgress(fileName: String,
+                                    name: String,
+                                    size: Int,
+                                    offset: Int? = nil) async throws -> Data {
+    guard let url = URL(string: "http://localhost:8080/files/download?\(fileName)")
+    else { throw "Could not create the URL." }
     await addDownload(name: name)
-    return Data()
+    let result: (downloadStream: URLSession.AsyncBytes, response: URLResponse)
+    
+    if let offset = offset {
+      let request = URLRequest(url: url, offset: offset, length: size)
+      result = try await URLSession.shared.bytes(for: request)
+      
+      guard result.response.isStatus200Ok
+      else { throw "The server responded with an error" }
+    } else {
+      result = try await URLSession.shared.bytes(from: url)
+      guard result.response.isStatus200Ok
+      else { throw "The server responded with an error" }
+    }
+    
+    var iterator = result.downloadStream.makeAsyncIterator()
+    let accumulator = ByteAccumulator(name: name, size: size)
+    while !stopDownloads, !accumulator.checkCompleted() {
+      while !accumulator.isBatchCompleted, let byte = try await iterator.next() {
+        accumulator.append(byte)
+      }
+      
+      // Rogue version of Task(priority). This doesnt inherit the
+      // parents priority. So while the parent might be high. We specify as medium
+      Task.detached(priority: .medium) { [weak self] in
+        await self?.updateDownload(name:name, progress:accumulator.progress)
+      }
+      
+      print(accumulator.description)
+    }
+    
+    if stopDownloads, !Self.supportsPartialDownloads {
+      throw CancellationError()
+    }
+    
+    return accumulator.data
   }
 
   /// Downloads a file using multiple concurrent connections, returns the final content, and updates the download progress.
@@ -144,5 +180,13 @@ extension SuperStorageModel {
       info.progress = progress
       downloads[index] = info
     }
+  }
+}
+
+extension URLResponse {
+  /// Indicates if a response is a 200 Ok success
+  var isStatus200Ok: Bool {
+    guard let response = self as? HTTPURLResponse else { return false }
+    return 200..<300 ~= response.statusCode
   }
 }

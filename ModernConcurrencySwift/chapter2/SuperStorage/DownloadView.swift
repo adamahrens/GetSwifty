@@ -32,6 +32,7 @@
 
 import SwiftUI
 import UIKit
+import Combine
 
 /// The file download view.
 struct DownloadView: View {
@@ -46,6 +47,40 @@ struct DownloadView: View {
   /// Should display a download activity indicator.
   @State var isDownloadActive = false
   
+  /// How long has the download been going
+  @State var duration = "" {
+    didSet {
+      print("Been running for \(duration)")
+    }
+  }
+  
+  /// Used to allow cancelling a task if we navigate away.
+  @State var downloadTask: Task<Void, Error>? {
+    didSet {
+      timerTask?.cancel()
+      guard isDownloadActive else { return }
+      let startTime = Date().timeIntervalSince1970
+      let timerSequence = Timer
+        .publish(every: 1, tolerance: 1, on: .main, in: .common)
+        .autoconnect()
+        .map { date -> String in
+          let duration = Int(date.timeIntervalSince1970 - startTime)
+          return "\(duration)s"
+        }
+        .values
+      
+      timerTask = Task {
+        for await duration in timerSequence {
+          self.duration = duration
+        }
+      }
+     }
+  }
+  
+  /// Wrapping Combine Timer publisher to use async/await
+  /// to show a duration for time to download!
+  @State var timerTask: Task<Void, Error>?
+  
   var body: some View {
     List {
       // Show the details of the selected file and download buttons.
@@ -56,23 +91,45 @@ struct DownloadView: View {
         downloadSingleAction: {
           // Download a file in a single go.
           isDownloadActive = true
+          
           // Use Task to run async code from non-async context
-          Task {
+          downloadTask = Task {
             fileData = try await model.download(file: file)
             isDownloadActive = false
           }
         },
         downloadWithUpdatesAction: {
           // Download a file with UI progress updates.
+          isDownloadActive = true
+          downloadTask = Task {
+            do {
+              
+              // Were binding the the value to supportsPartialDownloads
+              // If the file we're attempting to download is a jpeg
+              try await SuperStorageModel.$supportsPartialDownloads
+                .withValue(file.name.hasSuffix(".jpeg")) {
+                  fileData = try await model.downloadWithProgress(file: file)
+                }
+            } catch {
+              print("Error thrown while download with progress")
+            }
+            isDownloadActive = false
+          }
         },
         downloadMultipleAction: {
           // Download a file in multiple concurrent parts.
         }
       )
+      
       if !model.downloads.isEmpty {
         // Show progress for any ongoing downloads.
         Downloads(downloads: model.downloads)
+        if isDownloadActive {
+          Text("Duration: \(duration)")
+            .fontWeight(.light)
+        }
       }
+      
       if let fileData = fileData {
         // Show a preview of the file if it's a valid image.
         FilePreview(fileData: fileData)
@@ -82,12 +139,16 @@ struct DownloadView: View {
     .listStyle(InsetGroupedListStyle())
     .toolbar(content: {
       Button(action: {
+        model.stopDownloads = true
+        timerTask?.cancel()
       }, label: { Text("Cancel All") })
         .disabled(model.downloads.isEmpty)
     })
     .onDisappear {
       fileData = nil
       model.reset()
+      downloadTask?.cancel()
+      timerTask?.cancel()
     }
   }
 }
