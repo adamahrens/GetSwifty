@@ -32,47 +32,26 @@
 
 import SwiftUI
 
-/// A chat message view.
-struct MessageView: View {
-  @Binding var message: Message
-  let myUser: String
-
-  private func color(for username: String?, myUser: String) -> Color {
-    guard
-      let username = username
-    else { return Color.clear }
-    return username == myUser ? Color.teal : Color.orange
-  }
+struct FlightDirectionGraphic: View {
+  var direction: FlightDirection
 
   var body: some View {
-    HStack {
-      if myUser == message.user {
-        Spacer()
-      }
-
-      VStack(alignment: myUser == message.user ? .trailing : .leading) {
-        if let user = message.user {
-          HStack {
-            if myUser != message.user {
-              Text(user).font(.callout)
-            }
-          }
-        }
-
-        Text(message.message)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 8)
-          .overlay {
-            RoundedRectangle(cornerRadius: 15)
-              .strokeBorder(color(for: message.user, myUser: myUser), lineWidth: 1)
-          }
-      }
-
-      if myUser != message.user && message.user != nil {
-        Spacer()
-      }
+    ZStack {
+      RoundedRectangle(cornerRadius: 10.0)
+        .foregroundColor(Color(red: 0.9, green: 0.4, blue: 0.69))
+      Image(systemName: "airplane")
+        .resizable()
+        .padding(5)
+        .rotationEffect(.degrees(direction == .arrival ? 45.0 : -45.0))
     }
-    .padding(.vertical, 2)
-    .frame(maxWidth: .infinity)
+  }
+}
+
+struct FlightDirectionGraphic_Previews: PreviewProvider {
+  static var previews: some View {
+    Group {
+      FlightDirectionGraphic(direction: .arrival)
+      FlightDirectionGraphic(direction: .departure)
+    }.frame(width: 50, height: 50)
   }
 }

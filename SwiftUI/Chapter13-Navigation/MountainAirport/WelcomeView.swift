@@ -32,47 +32,34 @@
 
 import SwiftUI
 
-/// A chat message view.
-struct MessageView: View {
-  @Binding var message: Message
-  let myUser: String
-
-  private func color(for username: String?, myUser: String) -> Color {
-    guard
-      let username = username
-    else { return Color.clear }
-    return username == myUser ? Color.teal : Color.orange
-  }
+struct WelcomeView: View {
+  @StateObject var flightInfo = FlightData()
 
   var body: some View {
-    HStack {
-      if myUser == message.user {
-        Spacer()
-      }
-
-      VStack(alignment: myUser == message.user ? .trailing : .leading) {
-        if let user = message.user {
-          HStack {
-            if myUser != message.user {
-              Text(user).font(.callout)
-            }
-          }
+    VStack(alignment: .leading) {
+      ZStack(alignment: .topLeading) {
+        // Background
+        Image("welcome-background")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: 375, height: 250)
+          .clipped()
+        //Title
+        VStack {
+          Text("Mountain Airport")
+            .font(.system(size: 28.0, weight: .bold))
+          Text("Flight Status")
         }
-
-        Text(message.message)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 8)
-          .overlay {
-            RoundedRectangle(cornerRadius: 15)
-              .strokeBorder(color(for: message.user, myUser: myUser), lineWidth: 1)
-          }
+        .foregroundColor(.white)
+        .padding()
       }
+      Spacer()
+    }.font(.title)
+  }
+}
 
-      if myUser != message.user && message.user != nil {
-        Spacer()
-      }
-    }
-    .padding(.vertical, 2)
-    .frame(maxWidth: .infinity)
+struct ContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    WelcomeView()
   }
 }

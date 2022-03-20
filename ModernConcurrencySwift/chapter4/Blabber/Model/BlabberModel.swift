@@ -37,14 +37,25 @@ import UIKit
 
 /// The app model that communicates with the server.
 class BlabberModel: ObservableObject {
+  /// Current live updates
+  @Published var messages = [Message]()
+  
   var username = ""
   var urlSession = URLSession.shared
 
   init() {
   }
-
-  /// Current live updates
-  @Published var messages: [Message] = []
+  
+  /// Observer notifcations when backgroung/foreground to notify chat
+  func observeAppStatus() async {
+    for await _ in await NotificationCenter.default.notifications(for: UIApplication.willResignActiveNotification) {
+      try? await say("\(username) went away", isSystemMessage: true)
+    }
+    
+    for await _ in await NotificationCenter.default.notifications(for: UIApplication.didBecomeActiveNotification) {
+      try? await say("\(username) came back", isSystemMessage: true)
+    }
+  }
 
   /// Shares the current user's address in chat.
   func shareLocation() async throws {
@@ -53,6 +64,48 @@ class BlabberModel: ObservableObject {
   /// Does a countdown and sends the message.
   func countdown(to message: String) async throws {
     guard !message.isEmpty else { return }
+    
+    /*
+    let counter = AsyncStream<String> { continuation in
+      var countdown = 3
+      Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        continuation.yield("\(countdown) ...")
+        
+        if countdown == 0 {
+          timer.invalidate()
+//          continuation.yield(message)
+//          continuation.finish()
+          
+          // Yield & Finish
+          continuation.yield(with: .success(message))
+          return
+        } else {
+          countdown -= 1
+        }
+      }
+    }
+    */
+    
+    var start = 3
+    let counter = AsyncStream<String> {
+      do {
+        try await Task.sleep(nanoseconds: UInt64.random(in: 1000000000...2000000000))
+      } catch {
+        return nil
+      }
+      
+      guard start >= 0 else { return nil }
+      defer { start -= 1 }
+      if start != 0 {
+        return "\(start) ..."
+      }
+      
+      return message
+    }
+    
+    for await message in counter {
+      try await say(message)
+    }
   }
 
   /// Start live chat updates
@@ -83,6 +136,35 @@ class BlabberModel: ObservableObject {
   /// Reads the server chat stream and updates the data model.
   @MainActor
   private func readMessages(stream: URLSession.AsyncBytes) async throws {
+    
+    var iterator = stream.lines.makeAsyncIterator()
+    
+    guard let first = try await iterator.next()
+    else { throw "No response from server" }
+    
+    guard
+      let data = first.data(using: .utf8),
+      let status = try? JSONDecoder().decode(ServerStatus.self, from: data)
+    else { throw "Invalid server status" }
+    
+    messages.append(Message(message: "\(status.activeUsers) active users"))
+    
+    let notifications = Task {
+      await observeAppStatus()
+    }
+    
+    defer {
+      notifications.cancel()
+    }
+    
+    // Endless stream
+    for try await line in stream.lines {
+      if
+        let data = line.data(using: .utf8),
+        let newMessage = try? JSONDecoder().decode(Message.self, from: data) {
+        messages.append(newMessage)
+      }
+    }
   }
 
   /// Sends the user's message to the chat server

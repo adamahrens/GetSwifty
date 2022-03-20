@@ -32,47 +32,51 @@
 
 import SwiftUI
 
-/// A chat message view.
-struct MessageView: View {
-  @Binding var message: Message
-  let myUser: String
-
-  private func color(for username: String?, myUser: String) -> Color {
-    guard
-      let username = username
-    else { return Color.clear }
-    return username == myUser ? Color.teal : Color.orange
+class SavedFlights: ObservableObject {
+  @Published var savedFlightIds: [Int] = []
+  @AppStorage("SavedFlight") var savedFlightStorage = "" {
+    didSet {
+      savedFlightIds = getSavedFlights()
+    }
   }
 
-  var body: some View {
-    HStack {
-      if myUser == message.user {
-        Spacer()
-      }
+  init() {
+    savedFlightIds = getSavedFlights()
+  }
 
-      VStack(alignment: myUser == message.user ? .trailing : .leading) {
-        if let user = message.user {
-          HStack {
-            if myUser != message.user {
-              Text(user).font(.callout)
-            }
-          }
-        }
+  init(flightId: Int) {
+    savedFlightIds = [flightId]
+  }
 
-        Text(message.message)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 8)
-          .overlay {
-            RoundedRectangle(cornerRadius: 15)
-              .strokeBorder(color(for: message.user, myUser: myUser), lineWidth: 1)
-          }
-      }
+  init(flightIds: [Int]) {
+    savedFlightIds = flightIds
+  }
 
-      if myUser != message.user && message.user != nil {
-        Spacer()
-      }
+  func isFlightSaved(_ flight: FlightInformation) -> Bool {
+    let flightIds = savedFlightStorage.split(separator: ",").compactMap { Int($0) }
+    let matching = flightIds.filter { $0 == flight.id }
+    return matching.isEmpty == false
+  }
+
+  func saveFight(_ flight: FlightInformation) {
+    if !isFlightSaved(flight) {
+      print("Saving flight: \(flight.id)")
+      var flights = savedFlightStorage.split(separator: ",").compactMap { Int($0) }
+      flights.append(flight.id)
+      savedFlightStorage = flights.map { String($0) }.joined(separator: ",")
+    }  }
+
+  func removeSavedFlight(_ flight: FlightInformation) {
+    if isFlightSaved(flight) {
+      print("Removing saved flight: \(flight.id)")
+      let flights = savedFlightStorage.split(separator: ",").compactMap { Int($0) }
+      let newFlights = flights.filter { $0 != flight.id }
+      savedFlightStorage = newFlights.map { String($0) }.joined(separator: ",")
     }
-    .padding(.vertical, 2)
-    .frame(maxWidth: .infinity)
+  }
+
+  func getSavedFlights() -> [Int] {
+    let flightIds = savedFlightStorage.split(separator: ",").compactMap { Int($0) }
+    return flightIds
   }
 }

@@ -33,4 +33,31 @@
 import Foundation
 
 extension NotificationCenter {
+  func notifications(for name: Notification.Name) -> AsyncStream<Notification> {
+    AsyncStream<Notification> { continuation in
+      NotificationCenter
+        .default
+        .addObserver(forName: name,
+                     object: nil,
+                     queue: nil) { continuation.yield($0) }
+    }
+  }
+  
+  func notificationsAll(for names: [Notification.Name]) -> [AsyncStream<Notification>] {
+    var streams = [AsyncStream<Notification>]()
+    
+    for name in names {
+      let stream = AsyncStream<Notification> { continuation in
+        NotificationCenter
+          .default
+          .addObserver(forName: name,
+                       object: nil,
+                       queue: nil) { continuation.yield($0) }
+      }
+      
+      streams.append(stream)
+    }
+    
+    return streams
+  }
 }

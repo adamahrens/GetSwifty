@@ -32,47 +32,38 @@
 
 import SwiftUI
 
-/// A chat message view.
-struct MessageView: View {
-  @Binding var message: Message
-  let myUser: String
-
-  private func color(for username: String?, myUser: String) -> Color {
-    guard
-      let username = username
-    else { return Color.clear }
-    return username == myUser ? Color.teal : Color.orange
-  }
+struct FlightDetails: View {
+  var flight: FlightInformation
 
   var body: some View {
-    HStack {
-      if myUser == message.user {
-        Spacer()
-      }
-
-      VStack(alignment: myUser == message.user ? .trailing : .leading) {
-        if let user = message.user {
-          HStack {
-            if myUser != message.user {
-              Text(user).font(.callout)
-            }
-          }
+    ZStack {
+      Image("background-view")
+        .resizable()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+      VStack(alignment: .leading) {
+        HStack {
+          FlightDirectionGraphic(direction: flight.direction)
+            .frame(width: 40, height: 40)
+          VStack(alignment: .leading) {
+            Text("\(flight.dirString) \(flight.otherAirport)")
+            Text(flight.flightStatus)
+              .font(.subheadline)
+          }.font(.title2)
         }
-
-        Text(message.message)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 8)
-          .overlay {
-            RoundedRectangle(cornerRadius: 15)
-              .strokeBorder(color(for: message.user, myUser: myUser), lineWidth: 1)
-          }
-      }
-
-      if myUser != message.user && message.user != nil {
         Spacer()
-      }
+      }.foregroundColor(.white)
+      .padding()
+      .navigationTitle("\(flight.airline) Flight \(flight.number)")
     }
-    .padding(.vertical, 2)
-    .frame(maxWidth: .infinity)
+  }
+}
+
+struct FlightDetails_Previews: PreviewProvider {
+  static var previews: some View {
+    NavigationView {
+      FlightDetails(
+        flight: FlightData.generateTestFlight(date: Date())
+      )
+    }
   }
 }

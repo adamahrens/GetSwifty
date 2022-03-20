@@ -1,4 +1,4 @@
-/// Copyright (c) 2021 Razeware LLC
+/// Copyright (c) 2021  Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,47 +32,14 @@
 
 import SwiftUI
 
-/// A chat message view.
-struct MessageView: View {
-  @Binding var message: Message
-  let myUser: String
-
-  private func color(for username: String?, myUser: String) -> Color {
-    guard
-      let username = username
-    else { return Color.clear }
-    return username == myUser ? Color.teal : Color.orange
-  }
-
+struct FlightStatusBoard: View {
   var body: some View {
-    HStack {
-      if myUser == message.user {
-        Spacer()
-      }
+    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  }
+}
 
-      VStack(alignment: myUser == message.user ? .trailing : .leading) {
-        if let user = message.user {
-          HStack {
-            if myUser != message.user {
-              Text(user).font(.callout)
-            }
-          }
-        }
-
-        Text(message.message)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 8)
-          .overlay {
-            RoundedRectangle(cornerRadius: 15)
-              .strokeBorder(color(for: message.user, myUser: myUser), lineWidth: 1)
-          }
-      }
-
-      if myUser != message.user && message.user != nil {
-        Spacer()
-      }
-    }
-    .padding(.vertical, 2)
-    .frame(maxWidth: .infinity)
+struct FlightStatusBoard_Previews: PreviewProvider {
+  static var previews: some View {
+    FlightStatusBoard()
   }
 }
