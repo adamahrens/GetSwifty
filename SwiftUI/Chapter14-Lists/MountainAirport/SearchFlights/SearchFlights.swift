@@ -1,4 +1,4 @@
-/// Copyright (c) 2021  Razeware LLC
+/// Copyright (c) 2021 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -18,10 +18,6 @@
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
 ///
-/// This project and source code may use libraries or frameworks that are
-/// released under various Open-Source licenses. Use of those libraries and
-/// frameworks are governed by their own individual licenses.
-///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,32 +28,52 @@
 
 import SwiftUI
 
-struct FlightStatusBoard: View {
-  let flights: [FlightInformation]
-  
-  @State private var hidePast = false
-  
-  var shownFlights: [FlightInformation] {
-    hidePast ? flights.filter { $0.localTime > Date() } : flights
-  }
-  
-  var body: some View {
-    List(shownFlights, id: \.id) { flight in
-      NavigationLink(destination: FlightDetails(flight: flight)) {
-        Text(flight.statusBoardName)
+struct SearchFlights: View {
+  var flightData: [FlightInformation]
+  @State private var date = Date()
+  @State private var directionFilter: FlightDirection = .none
+
+  var matchingFlights: [FlightInformation] {
+    var matchingFlights = flightData
+
+    if directionFilter != .none {
+      matchingFlights = matchingFlights.filter {
+        $0.direction == directionFilter
       }
     }
-    .navigationTitle("Flight Status")
-    .toolbar {
-      Toggle("Hide Past", isOn: $hidePast)
+
+    return matchingFlights
+  }
+
+  var body: some View {
+    ZStack {
+      Image("background-view")
+        .resizable()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+      VStack {
+        Picker(
+          selection: $directionFilter,
+          label: Text("Flight Direction")) {
+          Text("All").tag(FlightDirection.none)
+          Text("Arrivals").tag(FlightDirection.arrival)
+          Text("Departures").tag(FlightDirection.departure)
+        }
+        .background(Color.white)
+        .pickerStyle(SegmentedPickerStyle())
+        // Insert Results
+        Spacer()
+      }
+      .navigationBarTitle("Search Flights")
+      .padding()
     }
   }
 }
 
-struct FlightStatusBoard_Previews: PreviewProvider {
+struct SearchFlights_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
-      FlightStatusBoard(flights: FlightData.generateTestFlights(date: Date()))
+      SearchFlights(flightData: FlightData.generateTestFlights(date: Date())
+      )
     }
   }
 }

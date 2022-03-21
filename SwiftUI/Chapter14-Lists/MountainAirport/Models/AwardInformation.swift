@@ -1,4 +1,4 @@
-/// Copyright (c) 2021  Razeware LLC
+/// Copyright (c) 2021 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,32 +32,25 @@
 
 import SwiftUI
 
-struct FlightStatusBoard: View {
-  let flights: [FlightInformation]
-  
-  @State private var hidePast = false
-  
-  var shownFlights: [FlightInformation] {
-    hidePast ? flights.filter { $0.localTime > Date() } : flights
-  }
-  
-  var body: some View {
-    List(shownFlights, id: \.id) { flight in
-      NavigationLink(destination: FlightDetails(flight: flight)) {
-        Text(flight.statusBoardName)
-      }
-    }
-    .navigationTitle("Flight Status")
-    .toolbar {
-      Toggle("Hide Past", isOn: $hidePast)
-    }
-  }
+struct AwardInformation {
+  public var imageName: String
+  public var title: String
+  public var description: String
+  public var awarded: Bool
 }
 
-struct FlightStatusBoard_Previews: PreviewProvider {
-  static var previews: some View {
-    NavigationView {
-      FlightStatusBoard(flights: FlightData.generateTestFlights(date: Date()))
+extension AwardInformation: Hashable {
+  static func == (lhs: AwardInformation, rhs: AwardInformation) -> Bool {
+    if lhs.title == rhs.title && lhs.description == rhs.description && lhs.awarded == rhs.awarded {
+      return true
     }
+
+    return false
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(title)
+    hasher.combine(description)
+    hasher.combine(awarded)
   }
 }
