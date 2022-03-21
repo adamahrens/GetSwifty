@@ -38,8 +38,16 @@ struct FlightStatusBoard: View {
       flights.filter { $0.localTime >= Date() } :
       flights
   }
+  
+  private var arrivals: [FlightInformation] {
+    shownFlights.filter { $0.direction == .arrival }
+  }
+  
+  private var departures: [FlightInformation] {
+    shownFlights.filter { $0.direction == .departure }
+  }
 
-  var shortDateString: String {
+  private var shortDateString: String {
     let dateF = DateFormatter()
     dateF.timeStyle = .none
     dateF.dateFormat = "MMM d"
@@ -48,17 +56,16 @@ struct FlightStatusBoard: View {
 
   var body: some View {
     TabView(selection: $selectedTab) {
-      FlightList(
-        flights: shownFlights.filter { $0.direction == .arrival }
+      FlightList(flights: arrivals
       ).tabItem {
         Image("descending-airplane")
           .resizable()
         Text("Arrivals")
       }
-      .badge(shownFlights.filter { $0.direction == .arrival }.count)
+      .badge(arrivals.count)
       .tag(0)
-      FlightList(
-        flights: shownFlights
+      
+      FlightList(flights: shownFlights
       ).tabItem {
         Image(systemName: "airplane")
           .resizable()
@@ -66,13 +73,13 @@ struct FlightStatusBoard: View {
       }
       .badge(shortDateString)
       .tag(1)
-      FlightList(
-        flights: shownFlights.filter { $0.direction == .departure }
+      
+      FlightList(flights: departures
       ).tabItem {
         Image("ascending-airplane")
         Text("Departures")
       }
-      .badge(shownFlights.filter { $0.direction == .departure }.count)
+      .badge(departures.count)
       .tag(2)
     }.navigationTitle("Flight Status")
     .navigationBarItems(

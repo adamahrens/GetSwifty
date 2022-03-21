@@ -29,13 +29,37 @@
 import SwiftUI
 
 struct FlightList: View {
-  var flights: [FlightInformation]
+  let flights: [FlightInformation]
+  
+  private var nextFlightId: Int {
+    guard let flight = flights.first(where: { $0.localTime >= Date()}) else { return flights.last!.id }
+    return flight.id
+  }
 
   var body: some View {
-    ForEach(flights, id: \.id) { flight in
-      NavigationLink(
-        destination: FlightDetails(flight: flight)) {
-        FlightRow(flight: flight)
+    // FlightInformation implements identifiable. Don't need to pass id
+    ScrollViewReader { proxy in
+//      ScrollView + ForEach can be accomplished with List
+//      ScrollView {
+//        LazyVStack {
+//          ForEach(flights) { flight in
+//            NavigationLink(
+//              destination: FlightDetails(flight: flight)) {
+//              FlightRow(flight: flight)
+//            }
+//          }
+//        }
+//      }.onAppear {
+      List(flights) { flight in
+        NavigationLink {
+          FlightDetails(flight: flight)
+        } label: {
+          FlightRow(flight: flight)
+        }
+      }.onAppear {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+          proxy.scrollTo(nextFlightId)
+        }
       }
     }
   }
