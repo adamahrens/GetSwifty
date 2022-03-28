@@ -39,6 +39,12 @@ struct AwardInformation {
   public var awarded: Bool
 }
 
+extension AwardInformation: Identifiable {
+  var id: Int {
+    "\(title)-\(description)-\(awarded)".hashValue
+  }
+}
+
 extension AwardInformation: Hashable {
   static func == (lhs: AwardInformation, rhs: AwardInformation) -> Bool {
     if lhs.title == rhs.title && lhs.description == rhs.description && lhs.awarded == rhs.awarded {
