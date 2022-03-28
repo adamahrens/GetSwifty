@@ -28,57 +28,26 @@
 
 import SwiftUI
 
-struct FlightList: View {
-  var flights: [FlightInformation]
-  
-  @Binding var highlightedIds: [Int]
+struct FlightStatusButton: View {
+  @ObservedObject var flightInfo: FlightData
 
-  var nextFlightId: Int {
-    guard let flight = flights.first(
-      where: {
-        $0.localTime >= Date()
-      }
-    ) else {
-      // swiftlint:disable:next force_unwrapping
-      return flights.last!.id
-    }
-    return flight.id
-  }
-
-  func rowHighlighted(_ flightId: Int) -> Bool {
-    highlightedIds.contains(flightId)
-  }
-  
   var body: some View {
-    ScrollViewReader { scrollProxy in
-      List(flights) { flight in
-        NavigationLink(
-          destination: FlightDetails(flight: flight)) {
-          FlightRow(flight: flight)
-        }.listRowBackground(
-          rowHighlighted(flight.id) ? Color.yellow.opacity(0.6) : Color.clear
-        )
-        .swipeActions(edge: .leading) {
-          HighlightActionView(flightId: flight.id, highlightedIds: $highlightedIds)
-        }
-      }
-      .onAppear {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-          scrollProxy.scrollTo(nextFlightId, anchor: .center)
-        }
-      }
+    NavigationLink(
+      destination: FlightStatusBoard(
+        flights: flightInfo.getDaysFlights(Date()))
+    ) {
+      WelcomeButtonView(
+        title: "Flight Status",
+        subTitle: "Departure and arrival information",
+        imageName: "airplane",
+        imageAngle: -45.0
+      )
     }
   }
 }
 
-struct FlightList_Previews: PreviewProvider {
-  
+struct FlightStatusButton_Previews: PreviewProvider {
   static var previews: some View {
-    NavigationView {
-      FlightList(
-        flights: FlightData.generateTestFlights(date: Date()),
-        highlightedIds: .constant([1])
-      )
-    }
+    FlightStatusButton(flightInfo: FlightData())
   }
 }
