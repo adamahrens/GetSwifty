@@ -40,6 +40,8 @@ class BlabberModel: ObservableObject {
   /// Current live updates
   @Published var messages = [Message]()
   
+  private var delegate: ChatLocationDelegate?
+  
   var username = ""
   var urlSession = URLSession.shared
 
@@ -59,6 +61,38 @@ class BlabberModel: ObservableObject {
 
   /// Shares the current user's address in chat.
   func shareLocation() async throws {
+    let location: CLLocation = try await withCheckedThrowingContinuation { [weak self] continuation in 
+      self?.delegate = ChatLocationDelegate(continuation: continuation)
+    }
+    
+    // Suspended and continued when location is errored or gets a value
+    print(location.description)
+    
+    let address: String = try await withCheckedThrowingContinuation { continuation in
+      AddressEncoder.addressFor(location: location) { address, error in
+        guard error != nil || address != nil else {
+          continuation.resume(throwing: "Address encoding failed")
+          return
+        }
+        
+        // Do we have an error and address? Just return the address
+        if let _ = error, let a = address {
+          continuation.resume(returning: a)
+        }
+        
+        // Do we have an error?
+        if let e = error {
+          continuation.resume(throwing: e)
+        }
+        
+        // Do we have an address?
+        if let a = address {
+          continuation.resume(returning: a)
+        }
+      }
+    }
+    
+    try await say("\(address)")
   }
 
   /// Does a countdown and sends the message.

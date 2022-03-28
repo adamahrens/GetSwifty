@@ -1,15 +1,15 @@
 /// Copyright (c) 2021 Razeware LLC
-///
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -30,45 +30,35 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import Foundation
-import CoreLocation
+import SwiftUI
 
-typealias LocationContinuation = CheckedContinuation<CLLocation, Error>
+struct WelcomeButtonView: View {
+  var title: String
+  var subTitle: String
 
-final class ChatLocationDelegate: NSObject, CLLocationManagerDelegate {
-  private var continuation: LocationContinuation?
-  private let manager = CLLocationManager()
-  
-  init(continuation: LocationContinuation) {
-    self.continuation = continuation
-    super.init()
-    manager.delegate = self
-    manager.requestWhenInUseAuthorization()
+  var body: some View {
+    VStack(alignment: .leading) {
+      Text(title)
+        .font(.title)
+        .foregroundColor(.white)
+      Text(subTitle)
+        .font(.subheadline)
+        .foregroundColor(.white)
+    }.padding()
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(
+      Image("link-pattern")
+        .resizable()
+        .clipped()
+    )
   }
-  
-  
-  /// CLLocationManagerDelegate
-  ///
-  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    switch manager.authorizationStatus {
-    case .notDetermined:
-      break
-    case .authorizedAlways, .authorizedWhenInUse:
-      manager.startUpdatingLocation()
-    default:
-      continuation?.resume(throwing: "The app is not authorized to use location data")
-      continuation = nil
-    }
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let location = locations.first else { return }
-    continuation?.resume(returning: location)
-    continuation = nil
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    continuation?.resume(throwing: error)
-    continuation = nil
+}
+
+struct WelcomeButtonView_Previews: PreviewProvider {
+  static var previews: some View {
+    WelcomeButtonView(
+      title: "Flight Status",
+      subTitle: "Departure and Arrival Information"
+    )
   }
 }

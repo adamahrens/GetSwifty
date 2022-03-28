@@ -30,45 +30,27 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import Foundation
-import CoreLocation
+import SwiftUI
 
-typealias LocationContinuation = CheckedContinuation<CLLocation, Error>
+struct AwardInformation {
+  public var imageName: String
+  public var title: String
+  public var description: String
+  public var awarded: Bool
+}
 
-final class ChatLocationDelegate: NSObject, CLLocationManagerDelegate {
-  private var continuation: LocationContinuation?
-  private let manager = CLLocationManager()
-  
-  init(continuation: LocationContinuation) {
-    self.continuation = continuation
-    super.init()
-    manager.delegate = self
-    manager.requestWhenInUseAuthorization()
-  }
-  
-  
-  /// CLLocationManagerDelegate
-  ///
-  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    switch manager.authorizationStatus {
-    case .notDetermined:
-      break
-    case .authorizedAlways, .authorizedWhenInUse:
-      manager.startUpdatingLocation()
-    default:
-      continuation?.resume(throwing: "The app is not authorized to use location data")
-      continuation = nil
+extension AwardInformation: Hashable {
+  static func == (lhs: AwardInformation, rhs: AwardInformation) -> Bool {
+    if lhs.title == rhs.title && lhs.description == rhs.description && lhs.awarded == rhs.awarded {
+      return true
     }
+
+    return false
   }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let location = locations.first else { return }
-    continuation?.resume(returning: location)
-    continuation = nil
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    continuation?.resume(throwing: error)
-    continuation = nil
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(title)
+    hasher.combine(description)
+    hasher.combine(awarded)
   }
 }

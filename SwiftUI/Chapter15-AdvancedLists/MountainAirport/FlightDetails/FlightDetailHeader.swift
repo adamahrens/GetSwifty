@@ -1,15 +1,15 @@
 /// Copyright (c) 2021 Razeware LLC
-///
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,11 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
-/// This project and source code may use libraries or frameworks that are
-/// released under various Open-Source licenses. Use of those libraries and
-/// frameworks are governed by their own individual licenses.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,45 +26,28 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import Foundation
-import CoreLocation
+import SwiftUI
 
-typealias LocationContinuation = CheckedContinuation<CLLocation, Error>
+struct FlightDetailHeader: View {
+  var flight: FlightInformation
 
-final class ChatLocationDelegate: NSObject, CLLocationManagerDelegate {
-  private var continuation: LocationContinuation?
-  private let manager = CLLocationManager()
-  
-  init(continuation: LocationContinuation) {
-    self.continuation = continuation
-    super.init()
-    manager.delegate = self
-    manager.requestWhenInUseAuthorization()
-  }
-  
-  
-  /// CLLocationManagerDelegate
-  ///
-  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    switch manager.authorizationStatus {
-    case .notDetermined:
-      break
-    case .authorizedAlways, .authorizedWhenInUse:
-      manager.startUpdatingLocation()
-    default:
-      continuation?.resume(throwing: "The app is not authorized to use location data")
-      continuation = nil
+  var body: some View {
+    HStack {
+      FlightStatusIcon(flight: flight)
+        .frame(width: 40, height: 40)
+      VStack(alignment: .leading) {
+        Text("\(flight.dirString) \(flight.otherAirport)")
+        Text(flight.flightStatus)
+          .font(.subheadline)
+      }.font(.title2)
     }
   }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let location = locations.first else { return }
-    continuation?.resume(returning: location)
-    continuation = nil
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    continuation?.resume(throwing: error)
-    continuation = nil
+}
+
+struct FlightDetailHeader_Previews: PreviewProvider {
+  static var previews: some View {
+    FlightDetailHeader(
+      flight: FlightData.generateTestFlight(date: Date())
+    )
   }
 }

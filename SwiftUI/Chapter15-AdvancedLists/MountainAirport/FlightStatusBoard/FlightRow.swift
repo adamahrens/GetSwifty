@@ -18,10 +18,6 @@
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
 ///
-/// This project and source code may use libraries or frameworks that are
-/// released under various Open-Source licenses. Use of those libraries and
-/// frameworks are governed by their own individual licenses.
-///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,45 +26,44 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import Foundation
-import CoreLocation
+import SwiftUI
 
-typealias LocationContinuation = CheckedContinuation<CLLocation, Error>
+struct FlightRow: View {
+  var flight: FlightInformation
 
-final class ChatLocationDelegate: NSObject, CLLocationManagerDelegate {
-  private var continuation: LocationContinuation?
-  private let manager = CLLocationManager()
-  
-  init(continuation: LocationContinuation) {
-    self.continuation = continuation
-    super.init()
-    manager.delegate = self
-    manager.requestWhenInUseAuthorization()
+  var timeFormatter: DateFormatter {
+    let tdf = DateFormatter()
+    tdf.timeStyle = .short
+    tdf.dateStyle = .none
+    return tdf
   }
-  
-  
-  /// CLLocationManagerDelegate
-  ///
-  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    switch manager.authorizationStatus {
-    case .notDetermined:
-      break
-    case .authorizedAlways, .authorizedWhenInUse:
-      manager.startUpdatingLocation()
-    default:
-      continuation?.resume(throwing: "The app is not authorized to use location data")
-      continuation = nil
+
+  var body: some View {
+    HStack {
+      FlightStatusIcon(flight: flight)
+        .padding(5)
+        .clipShape(RoundedRectangle(cornerRadius: 7))
+      VStack(alignment: .leading) {
+        Text(flight.flightName)
+          .font(.title2)
+        HStack {
+          Text(flight.flightStatus)
+          Text(flight.localTime, formatter: timeFormatter)
+        }.foregroundColor(flight.statusColor)
+        HStack {
+          Text(flight.otherAirport)
+          Text("·")
+          Text("Gate \(flight.gate)")
+        }.foregroundColor(.gray)
+      }
     }
   }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let location = locations.first else { return }
-    continuation?.resume(returning: location)
-    continuation = nil
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    continuation?.resume(throwing: error)
-    continuation = nil
+}
+
+struct FlightRow_Previews: PreviewProvider {
+  static var previews: some View {
+    FlightRow(
+      flight: FlightData.generateTestFlight(date: Date())
+    )
   }
 }
