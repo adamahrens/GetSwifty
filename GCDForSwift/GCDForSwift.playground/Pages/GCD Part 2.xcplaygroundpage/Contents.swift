@@ -163,7 +163,6 @@ func fetchData(completion: @escaping UserDetailsCompeletion) {
       group.leave()
     }.resume()
     
-    
     // Have to wait for all urls to finish
     group.wait()
     

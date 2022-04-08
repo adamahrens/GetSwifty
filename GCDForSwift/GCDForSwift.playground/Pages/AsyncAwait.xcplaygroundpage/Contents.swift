@@ -103,6 +103,7 @@ func fetchUserDetails() async throws -> UserDetails {
   return UserDetails(user: u, posts: posts)
 }
 
+/*
 Task {
   do {
     let details = try await fetchUserDetails()
@@ -112,6 +113,11 @@ Task {
   } catch let e as DecodeError {
     print("Got decode error \(e)")
   }
+}
+ */
+
+Task {
+  
 }
 
 
