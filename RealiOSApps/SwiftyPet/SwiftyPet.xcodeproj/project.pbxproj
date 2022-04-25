@@ -11,6 +11,37 @@
 		43EDF4592816275500FD9F9E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4582816275500FD9F9E /* ContentView.swift */; };
 		43EDF45B2816275500FD9F9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43EDF45A2816275500FD9F9E /* Assets.xcassets */; };
 		43EDF45E2816275500FD9F9E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43EDF45D2816275500FD9F9E /* Preview Assets.xcassets */; };
+		43EDF46B28162A4D00FD9F9E /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF46A28162A4D00FD9F9E /* Animal.swift */; };
+		43EDF46D28162BD800FD9F9E /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF46C28162BD800FD9F9E /* Breed.swift */; };
+		43EDF46F28162C5300FD9F9E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF46E28162C5300FD9F9E /* Colors.swift */; };
+		43EDF47128162CA100FD9F9E /* Age.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47028162CA100FD9F9E /* Age.swift */; };
+		43EDF47328162CE900FD9F9E /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47228162CE900FD9F9E /* Gender.swift */; };
+		43EDF47528162D0100FD9F9E /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47428162D0100FD9F9E /* Size.swift */; };
+		43EDF47728162D2800FD9F9E /* Coat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47628162D2800FD9F9E /* Coat.swift */; };
+		43EDF47928162D4900FD9F9E /* PhotoSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47828162D4900FD9F9E /* PhotoSizes.swift */; };
+		43EDF47B28162D9400FD9F9E /* AdoptionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47A28162D9400FD9F9E /* AdoptionStatus.swift */; };
+		43EDF47D28162DD900FD9F9E /* AnimalAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47C28162DD900FD9F9E /* AnimalAttributes.swift */; };
+		43EDF47F28162E2700FD9F9E /* AnimalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF47E28162E2700FD9F9E /* AnimalEnvironment.swift */; };
+		43EDF48128162E3300FD9F9E /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF48028162E3300FD9F9E /* Contact.swift */; };
+		43EDF48428162F5200FD9F9E /* AnimalsEndpoint.json in Resources */ = {isa = PBXBuildFile; fileRef = 43EDF48328162F5200FD9F9E /* AnimalsEndpoint.json */; };
+		43EDF48628162F7E00FD9F9E /* Animal+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF48528162F7E00FD9F9E /* Animal+Extensions.swift */; };
+		43EDF48A2816317F00FD9F9E /* AnimalsNearYouView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4892816317F00FD9F9E /* AnimalsNearYouView.swift */; };
+		43EDF48C2816319300FD9F9E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF48B2816319300FD9F9E /* SearchView.swift */; };
+		43EDF48F2816327400FD9F9E /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF48E2816327400FD9F9E /* APIConstants.swift */; };
+		43EDF493281632BA00FD9F9E /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF492281632BA00FD9F9E /* RequestProtocol.swift */; };
+		43EDF4962816350B00FD9F9E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4952816350B00FD9F9E /* NetworkError.swift */; };
+		43EDF4982816361700FD9F9E /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4972816361700FD9F9E /* HTTPHeaders.swift */; };
+		43EDF49B2816370600FD9F9E /* AccessTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF49A2816370600FD9F9E /* AccessTokenManager.swift */; };
+		43EDF49D2816372D00FD9F9E /* APIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF49C2816372D00FD9F9E /* APIToken.swift */; };
+		43EDF4A02816377900FD9F9E /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF49F2816377900FD9F9E /* UserDefaultKeys.swift */; };
+		43EDF4A3281637F700FD9F9E /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4A2281637F700FD9F9E /* DataParser.swift */; };
+		43EDF4A62816389500FD9F9E /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4A52816389500FD9F9E /* APIManager.swift */; };
+		43EDF4A8281639BF00FD9F9E /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4A7281639BF00FD9F9E /* URLResponse+Extensions.swift */; };
+		43EDF4AA28163A9700FD9F9E /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4A928163A9700FD9F9E /* RequestManager.swift */; };
+		43EDF4AC28163B9B00FD9F9E /* AuthTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4AB28163B9B00FD9F9E /* AuthTokenRequest.swift */; };
+		43EDF4AF28163DB100FD9F9E /* AnimalsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4AE28163DB100FD9F9E /* AnimalsRequest.swift */; };
+		43EDF4B128163FC200FD9F9E /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4B028163FC200FD9F9E /* Pagination.swift */; };
+		43EDF4B32816413500FD9F9E /* AnimalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4B22816413500FD9F9E /* AnimalRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +50,37 @@
 		43EDF4582816275500FD9F9E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		43EDF45A2816275500FD9F9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43EDF45D2816275500FD9F9E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		43EDF46A28162A4D00FD9F9E /* Animal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animal.swift; sourceTree = "<group>"; };
+		43EDF46C28162BD800FD9F9E /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
+		43EDF46E28162C5300FD9F9E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		43EDF47028162CA100FD9F9E /* Age.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Age.swift; sourceTree = "<group>"; };
+		43EDF47228162CE900FD9F9E /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
+		43EDF47428162D0100FD9F9E /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		43EDF47628162D2800FD9F9E /* Coat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coat.swift; sourceTree = "<group>"; };
+		43EDF47828162D4900FD9F9E /* PhotoSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSizes.swift; sourceTree = "<group>"; };
+		43EDF47A28162D9400FD9F9E /* AdoptionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdoptionStatus.swift; sourceTree = "<group>"; };
+		43EDF47C28162DD900FD9F9E /* AnimalAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalAttributes.swift; sourceTree = "<group>"; };
+		43EDF47E28162E2700FD9F9E /* AnimalEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalEnvironment.swift; sourceTree = "<group>"; };
+		43EDF48028162E3300FD9F9E /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		43EDF48328162F5200FD9F9E /* AnimalsEndpoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AnimalsEndpoint.json; sourceTree = "<group>"; };
+		43EDF48528162F7E00FD9F9E /* Animal+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animal+Extensions.swift"; sourceTree = "<group>"; };
+		43EDF4892816317F00FD9F9E /* AnimalsNearYouView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalsNearYouView.swift; sourceTree = "<group>"; };
+		43EDF48B2816319300FD9F9E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		43EDF48E2816327400FD9F9E /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		43EDF492281632BA00FD9F9E /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
+		43EDF4952816350B00FD9F9E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		43EDF4972816361700FD9F9E /* HTTPHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaders.swift; sourceTree = "<group>"; };
+		43EDF49A2816370600FD9F9E /* AccessTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenManager.swift; sourceTree = "<group>"; };
+		43EDF49C2816372D00FD9F9E /* APIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIToken.swift; sourceTree = "<group>"; };
+		43EDF49F2816377900FD9F9E /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		43EDF4A2281637F700FD9F9E /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		43EDF4A52816389500FD9F9E /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		43EDF4A7281639BF00FD9F9E /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
+		43EDF4A928163A9700FD9F9E /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		43EDF4AB28163B9B00FD9F9E /* AuthTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenRequest.swift; sourceTree = "<group>"; };
+		43EDF4AE28163DB100FD9F9E /* AnimalsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalsRequest.swift; sourceTree = "<group>"; };
+		43EDF4B028163FC200FD9F9E /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
+		43EDF4B22816413500FD9F9E /* AnimalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +113,7 @@
 		43EDF4552816275500FD9F9E /* SwiftyPet */ = {
 			isa = PBXGroup;
 			children = (
+				43EDF469281629C800FD9F9E /* Onboarding */,
 				43EDF467281627CD00FD9F9E /* Search */,
 				43EDF466281627C400FD9F9E /* AnimalsNearMe */,
 				43EDF465281627BC00FD9F9E /* AnimalDetails */,
@@ -74,6 +137,9 @@
 		43EDF464281627B500FD9F9E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				43EDF49E2816376900FD9F9E /* UserDefaults */,
+				43EDF48D2816324D00FD9F9E /* API */,
+				43EDF4682816296900FD9F9E /* Models */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -88,6 +154,7 @@
 		43EDF466281627C400FD9F9E /* AnimalsNearMe */ = {
 			isa = PBXGroup;
 			children = (
+				43EDF4872816316700FD9F9E /* Views */,
 			);
 			path = AnimalsNearMe;
 			sourceTree = "<group>";
@@ -95,8 +162,138 @@
 		43EDF467281627CD00FD9F9E /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				43EDF4882816316D00FD9F9E /* Views */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		43EDF4682816296900FD9F9E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF48228162F2D00FD9F9E /* Mocks */,
+				43EDF46A28162A4D00FD9F9E /* Animal.swift */,
+				43EDF46C28162BD800FD9F9E /* Breed.swift */,
+				43EDF46E28162C5300FD9F9E /* Colors.swift */,
+				43EDF47028162CA100FD9F9E /* Age.swift */,
+				43EDF47228162CE900FD9F9E /* Gender.swift */,
+				43EDF47428162D0100FD9F9E /* Size.swift */,
+				43EDF47628162D2800FD9F9E /* Coat.swift */,
+				43EDF47828162D4900FD9F9E /* PhotoSizes.swift */,
+				43EDF47A28162D9400FD9F9E /* AdoptionStatus.swift */,
+				43EDF47C28162DD900FD9F9E /* AnimalAttributes.swift */,
+				43EDF47E28162E2700FD9F9E /* AnimalEnvironment.swift */,
+				43EDF48028162E3300FD9F9E /* Contact.swift */,
+				43EDF4B028163FC200FD9F9E /* Pagination.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		43EDF469281629C800FD9F9E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		43EDF48228162F2D00FD9F9E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF48328162F5200FD9F9E /* AnimalsEndpoint.json */,
+				43EDF48528162F7E00FD9F9E /* Animal+Extensions.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		43EDF4872816316700FD9F9E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4892816317F00FD9F9E /* AnimalsNearYouView.swift */,
+				43EDF4B22816413500FD9F9E /* AnimalRow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		43EDF4882816316D00FD9F9E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF48B2816319300FD9F9E /* SearchView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		43EDF48D2816324D00FD9F9E /* API */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4A42816388200FD9F9E /* Network */,
+				43EDF4A1281637ED00FD9F9E /* Parser */,
+				43EDF499281636F600FD9F9E /* Token */,
+				43EDF4942816350000FD9F9E /* Errors */,
+				43EDF490281632A700FD9F9E /* Request */,
+				43EDF48E2816327400FD9F9E /* APIConstants.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		43EDF490281632A700FD9F9E /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4AD28163D9E00FD9F9E /* Protocols */,
+				43EDF4AB28163B9B00FD9F9E /* AuthTokenRequest.swift */,
+				43EDF4AE28163DB100FD9F9E /* AnimalsRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		43EDF4942816350000FD9F9E /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4952816350B00FD9F9E /* NetworkError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		43EDF499281636F600FD9F9E /* Token */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF49A2816370600FD9F9E /* AccessTokenManager.swift */,
+				43EDF49C2816372D00FD9F9E /* APIToken.swift */,
+			);
+			path = Token;
+			sourceTree = "<group>";
+		};
+		43EDF49E2816376900FD9F9E /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF49F2816377900FD9F9E /* UserDefaultKeys.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		43EDF4A1281637ED00FD9F9E /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4A2281637F700FD9F9E /* DataParser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		43EDF4A42816388200FD9F9E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4A52816389500FD9F9E /* APIManager.swift */,
+				43EDF4A928163A9700FD9F9E /* RequestManager.swift */,
+				43EDF4A7281639BF00FD9F9E /* URLResponse+Extensions.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		43EDF4AD28163D9E00FD9F9E /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF492281632BA00FD9F9E /* RequestProtocol.swift */,
+				43EDF4972816361700FD9F9E /* HTTPHeaders.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43EDF45E2816275500FD9F9E /* Preview Assets.xcassets in Resources */,
+				43EDF48428162F5200FD9F9E /* AnimalsEndpoint.json in Resources */,
 				43EDF45B2816275500FD9F9E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,8 +367,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43EDF4B128163FC200FD9F9E /* Pagination.swift in Sources */,
+				43EDF47528162D0100FD9F9E /* Size.swift in Sources */,
+				43EDF4A8281639BF00FD9F9E /* URLResponse+Extensions.swift in Sources */,
+				43EDF47928162D4900FD9F9E /* PhotoSizes.swift in Sources */,
+				43EDF48628162F7E00FD9F9E /* Animal+Extensions.swift in Sources */,
+				43EDF46D28162BD800FD9F9E /* Breed.swift in Sources */,
+				43EDF46F28162C5300FD9F9E /* Colors.swift in Sources */,
+				43EDF47B28162D9400FD9F9E /* AdoptionStatus.swift in Sources */,
+				43EDF48C2816319300FD9F9E /* SearchView.swift in Sources */,
+				43EDF48A2816317F00FD9F9E /* AnimalsNearYouView.swift in Sources */,
+				43EDF4A02816377900FD9F9E /* UserDefaultKeys.swift in Sources */,
+				43EDF49D2816372D00FD9F9E /* APIToken.swift in Sources */,
+				43EDF4AA28163A9700FD9F9E /* RequestManager.swift in Sources */,
+				43EDF4AC28163B9B00FD9F9E /* AuthTokenRequest.swift in Sources */,
+				43EDF4A62816389500FD9F9E /* APIManager.swift in Sources */,
 				43EDF4592816275500FD9F9E /* ContentView.swift in Sources */,
+				43EDF4A3281637F700FD9F9E /* DataParser.swift in Sources */,
+				43EDF4982816361700FD9F9E /* HTTPHeaders.swift in Sources */,
+				43EDF4962816350B00FD9F9E /* NetworkError.swift in Sources */,
+				43EDF48128162E3300FD9F9E /* Contact.swift in Sources */,
+				43EDF4B32816413500FD9F9E /* AnimalRow.swift in Sources */,
+				43EDF47128162CA100FD9F9E /* Age.swift in Sources */,
 				43EDF4572816275500FD9F9E /* SwiftyPetApp.swift in Sources */,
+				43EDF4AF28163DB100FD9F9E /* AnimalsRequest.swift in Sources */,
+				43EDF46B28162A4D00FD9F9E /* Animal.swift in Sources */,
+				43EDF49B2816370600FD9F9E /* AccessTokenManager.swift in Sources */,
+				43EDF47728162D2800FD9F9E /* Coat.swift in Sources */,
+				43EDF493281632BA00FD9F9E /* RequestProtocol.swift in Sources */,
+				43EDF48F2816327400FD9F9E /* APIConstants.swift in Sources */,
+				43EDF47D28162DD900FD9F9E /* AnimalAttributes.swift in Sources */,
+				43EDF47328162CE900FD9F9E /* Gender.swift in Sources */,
+				43EDF47F28162E2700FD9F9E /* AnimalEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
