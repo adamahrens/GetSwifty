@@ -43,7 +43,7 @@ struct SystemEnvironment<Environment> {
     set { self.environment[keyPath: keyPath] = newValue }
   }
 
-  var mainQueue: () -> AnySchedulerOf<DispatchQueue>
+  var main: () -> AnySchedulerOf<DispatchQueue>
   var decoder: () -> JSONDecoder
 
   private static func decoder() -> JSONDecoder {
@@ -53,10 +53,10 @@ struct SystemEnvironment<Environment> {
   }
 
   static func live(environment: Environment) -> Self {
-    Self(environment: environment, mainQueue: { .main }, decoder: decoder)
+    Self(environment: environment, main: { .main }, decoder: decoder)
   }
 
   static func dev(environment: Environment) -> Self {
-    Self(environment: environment, mainQueue: { .main }, decoder: decoder)
+    Self(environment: environment, main: { .main }, decoder: decoder)
   }
 }

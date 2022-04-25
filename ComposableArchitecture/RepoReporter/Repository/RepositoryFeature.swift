@@ -34,18 +34,56 @@ import Combine
 import ComposableArchitecture
 
 struct RepositoryState: Equatable {
+  var repositories = [RepositoryModel]()
+  var favorites = [RepositoryModel]()
 }
 
 enum RepositoryAction: Equatable {
+  case onAppear
+  case dataLoaded(Result<[RepositoryModel], APIError>)
+  case favoriteTapped(RepositoryModel)
 }
 
 struct RepositoryEnvironment {
+  var repositoryRequest: (JSONDecoder) -> Effect<[RepositoryModel], APIError>
+//  Before Using SystemEnvironment
+//  which holds most of those
+//
+//  var main: () -> AnySchedulerOf<DispatchQueue>
+//  var decoder: () -> JSONDecoder
+//
+//  static let development = RepositoryEnvironment(repositoryRequest: dummyRepositoryEffect) {
+//    .main
+//  } decoder: {
+//    JSONDecoder()
+//  }
 }
 
-let repositoryReducer = Reducer<
-  RepositoryState,
-  RepositoryAction,
-  RepositoryEnvironment
-> { _, _, _ in
-  .none
+//let repositoryReducer = Reducer<RepositoryState, RepositoryAction, RepositoryEnvironment> {
+let repositoryReducer = Reducer<RepositoryState, RepositoryAction, SystemEnvironment<RepositoryEnvironment>> {
+state, action, environment in
+  switch action {
+  case .onAppear:
+    return environment.repositoryRequest(environment.decoder())
+      .receive(on: environment.main())
+      .catchToEffect()
+      .map(RepositoryAction.dataLoaded)
+  case .dataLoaded(let result):
+    switch result {
+    case .success(let repos):
+      state.repositories = repos
+    case .failure(let error):
+      break
+    }
+    
+    return .none
+  case .favoriteTapped(let repository):
+    if state.favorites.contains(repository) {
+      state.favorites.removeAll { $0 == repository }
+    } else {
+      state.favorites.append(repository)
+    }
+    
+    return .none
+  }
 }

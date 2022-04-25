@@ -34,10 +34,12 @@ import ComposableArchitecture
 
 struct RootState {
   var userState = UserState()
+  var respositoryState = RepositoryState()
 }
 
 enum RootAction {
   case userAction(UserAction)
+  case respositoryAction(RepositoryAction)
 }
 
 struct RootEnvironment { }
@@ -51,5 +53,10 @@ let rootReducer = Reducer<
   userReducer.pullback(
     state: \.userState,
     action: /RootAction.userAction,
-    environment: { _ in .live(environment: UserEnvironment(userRequest: userEffect)) }))
+    environment: { _ in .live(environment: UserEnvironment(userRequest: userEffect)) }),
+  repositoryReducer.pullback(state: \.respositoryState,
+                             action: /RootAction.respositoryAction,
+                             environment: { _  in .live(environment: RepositoryEnvironment(repositoryRequest: repositoryEffect))
+                             })
+)
 // swiftlint:enable trailing_closure

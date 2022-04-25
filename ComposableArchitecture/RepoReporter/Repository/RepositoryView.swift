@@ -35,95 +35,101 @@ import Combine
 import ComposableArchitecture
 
 struct RepositoryListView: View {
-  let repositories: [RepositoryModel]
+  let store: Store<RepositoryState, RepositoryAction>
 
   var body: some View {
-    ScrollView {
-      LazyVStack {
-        ForEach(repositories) { repository in
-          RepositoryView(repository: repository, favoriteRepositories: [])
-            .padding([.leading, .trailing, .bottom])
+    WithViewStore(self.store) { viewStore in
+      ScrollView {
+        LazyVStack {
+          ForEach(viewStore.repositories) { repository in
+            RepositoryView(repository: repository, store: store)
+              .padding([.leading, .trailing, .bottom])
+          }
         }
+        .background(Color("rw-dark")
+          .edgesIgnoringSafeArea([.top, .leading, .trailing]))
       }
-      .background(Color("rw-dark")
-        .edgesIgnoringSafeArea([.top, .leading, .trailing]))
+      .onAppear { viewStore.send(.onAppear) }
     }
   }
 }
 
 struct FavoritesListView: View {
-  let favoriteRepositories: [RepositoryModel]
+  let store: Store<RepositoryState, RepositoryAction>
 
   var body: some View {
-    ScrollView {
-      LazyVStack {
-        ForEach(favoriteRepositories) { repository in
-          RepositoryView(repository: repository, favoriteRepositories: [])
-            .padding([.leading, .trailing, .bottom])
+    WithViewStore(self.store) { viewStore in
+      ScrollView {
+        LazyVStack {
+          ForEach(viewStore.favorites) { repository in
+            RepositoryView(repository: repository, store: store)
+              .padding([.leading, .trailing, .bottom])
+          }
         }
+        .background(Color("rw-dark")
+          .edgesIgnoringSafeArea([.top, .leading, .trailing]))
       }
-      .background(Color("rw-dark")
-        .edgesIgnoringSafeArea([.top, .leading, .trailing]))
     }
   }
 }
 
 struct RepositoryView: View {
   let repository: RepositoryModel
-  let favoriteRepositories: [RepositoryModel]
+  let store: Store<RepositoryState, RepositoryAction>
 
   var body: some View {
-    VStack {
-      HStack {
-        Text(repository.name)
-          .font(.title)
-        Spacer()
-        Button(
-          action: { return },
-          label: {
-            if favoriteRepositories.contains(repository) {
-              Image(systemName: "heart.fill")
-            } else {
-              Image(systemName: "heart")
-            }
-          })
-      }
-      Text(repository.description ?? "No description available")
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 4)
-        .padding(.bottom, 4)
-      HStack {
+    WithViewStore(self.store) { viewStore in
+      VStack {
         HStack {
-          Image(systemName: "star.fill")
-          Text("\(repository.stars)")
+          Text(repository.name)
+            .font(.title)
+          Spacer()
+          Button(
+            action: { viewStore.send(.favoriteTapped(repository)) },
+            label: {
+              if viewStore.favorites.contains(repository) {
+                Image(systemName: "heart.fill")
+              } else {
+                Image(systemName: "heart")
+              }
+            })
         }
-        Spacer()
+        Text(repository.description ?? "No description available")
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.top, 4)
+          .padding(.bottom, 4)
         HStack {
-          Image(systemName: "arrow.triangle.branch")
-          Text("\(repository.forks)")
-        }
-        Spacer()
-        if repository.language != nil {
-          Text("\(repository.language ?? "---")")
-            .multilineTextAlignment(.center)
+          HStack {
+            Image(systemName: "star.fill")
+            Text("\(repository.stars)")
+          }
+          Spacer()
+          HStack {
+            Image(systemName: "arrow.triangle.branch")
+            Text("\(repository.forks)")
+          }
+          Spacer()
+          if repository.language != nil {
+            Text("\(repository.language ?? "---")")
+              .multilineTextAlignment(.center)
+          }
         }
       }
-    }
-    .padding()
-    .foregroundColor(Color("rw-light"))
-    .background(Color("rw-green"))
+      .padding()
+      .foregroundColor(Color("rw-light"))
+      .background(Color("rw-green"))
     .cornerRadius(8.0)
+    }
   }
 }
 
 struct RepositoryListView_Previews: PreviewProvider {
   static var previews: some View {
-    let dummyRepo = RepositoryModel(
-      name: "Dummy Repo",
-      description: "This is a dummy repo to test the UI.",
-      stars: 10,
-      forks: 10,
-      language: "Swift")
-    RepositoryListView(repositories: [dummyRepo])
+    RepositoryListView(store: Store(
+        initialState: RepositoryState(),
+        reducer: repositoryReducer,
+        environment: .dev(environment: RepositoryEnvironment(repositoryRequest: dummyRepositoryEffect))
+      )
+    )
   }
 }

@@ -53,6 +53,16 @@ class RepoReporterTests: XCTestCase {
   }
 
   func testFavoriteButtonTapped() {
+    let store = TestStore(initialState: RepositoryState(), reducer: repositoryReducer, environment: SystemEnvironment(environment: RepositoryEnvironment(repositoryRequest: testRepositoryEffect), main: {
+      self.testScheduler.eraseToAnyScheduler()
+    }, decoder: {
+      JSONDecoder()
+    }))
+    
+    guard let repo = testRepositories.first else { fatalError("Test setup incomplete") }
+    store.send(.favoriteTapped(repo)) { state in
+//      state.favorites.append(repo)
+    }
   }
 
   func testOnAppear() {

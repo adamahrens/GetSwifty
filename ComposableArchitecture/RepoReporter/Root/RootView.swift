@@ -38,13 +38,13 @@ struct RootView: View {
   var body: some View {
     WithViewStore(self.store.stateless) { _ in
       TabView {
-        Color.clear
+        RepositoryListView(store: store.scope(state: \.respositoryState, action: RootAction.respositoryAction))
           .tabItem {
             Image(systemName: "list.bullet")
             Text("Repositories")
           }
 
-        Color.clear
+        FavoritesListView(store: store.scope(state: \.respositoryState, action: RootAction.respositoryAction))
           .tabItem {
             Image(systemName: "heart.fill")
             Text("Favorites")

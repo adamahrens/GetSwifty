@@ -53,7 +53,7 @@ let userReducer = Reducer<
   switch action {
   case .onAppear:
     return environment.userRequest(environment.decoder())
-      .receive(on: environment.mainQueue())
+      .receive(on: environment.main())
       .catchToEffect()
       .map(UserAction.dataLoaded)
   case .dataLoaded(let result):
