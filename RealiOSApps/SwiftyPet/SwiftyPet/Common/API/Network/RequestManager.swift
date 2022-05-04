@@ -15,10 +15,14 @@ protocol RequestManagerProtocol {
 final class RequestManager: RequestManagerProtocol {
   private let apiManager: APIManagerProtocol
   private let parser: DataParserProtocol
+  private let tokenManager: AccessTokenManagerProtocol
   
-  init(apiManager: APIManagerProtocol = APIManager(), parser: DataParserProtocol = DataParser()) {
+  init(apiManager: APIManagerProtocol = APIManager(),
+       parser: DataParserProtocol = DataParser(),
+       accessTokenManager: AccessTokenManagerProtocol = AccessTokenManager()) {
     self.apiManager = apiManager
     self.parser = parser
+    self.tokenManager = accessTokenManager
   }
   
   func send<T: Decodable>(request: RequestProtocol) async throws -> T {
@@ -31,6 +35,10 @@ final class RequestManager: RequestManagerProtocol {
   }
   
   func requestAccessToken() async throws -> String {
+    guard
+      !tokenManager.isTokenValid()
+    else { return tokenManager.fetchToken() }
+    
     let data = try await apiManager.token()
     let token: APIToken = try parser.parse(data: data)
     return token.bearerAccessToken

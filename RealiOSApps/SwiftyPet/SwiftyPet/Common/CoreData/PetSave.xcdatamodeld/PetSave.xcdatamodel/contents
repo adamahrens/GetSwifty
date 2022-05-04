@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BreedEntity" representedClassName="BreedEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="mixed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="primary" optional="YES" attributeType="String"/>
+        <attribute name="secondary" optional="YES" attributeType="String"/>
+        <attribute name="unknown" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="ColorsEntity" representedClassName="ColorsEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="primary" optional="YES" attributeType="String"/>
+        <attribute name="secondary" optional="YES" attributeType="String"/>
+        <attribute name="tertiary" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="BreedEntity" positionX="-63" positionY="-18" width="128" height="14"/>
+        <element name="ColorsEntity" positionX="-63" positionY="-27" width="128" height="74"/>
+    </elements>
+</model>

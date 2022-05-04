@@ -42,6 +42,7 @@
 		43EDF4AF28163DB100FD9F9E /* AnimalsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4AE28163DB100FD9F9E /* AnimalsRequest.swift */; };
 		43EDF4B128163FC200FD9F9E /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4B028163FC200FD9F9E /* Pagination.swift */; };
 		43EDF4B32816413500FD9F9E /* AnimalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4B22816413500FD9F9E /* AnimalRow.swift */; };
+		43EDF4B72817638A00FD9F9E /* PetSave.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43EDF4B52817638A00FD9F9E /* PetSave.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		43EDF4AE28163DB100FD9F9E /* AnimalsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalsRequest.swift; sourceTree = "<group>"; };
 		43EDF4B028163FC200FD9F9E /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		43EDF4B22816413500FD9F9E /* AnimalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalRow.swift; sourceTree = "<group>"; };
+		43EDF4B62817638A00FD9F9E /* PetSave.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetSave.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		43EDF464281627B500FD9F9E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				43EDF4B42817636200FD9F9E /* CoreData */,
 				43EDF49E2816376900FD9F9E /* UserDefaults */,
 				43EDF48D2816324D00FD9F9E /* API */,
 				43EDF4682816296900FD9F9E /* Models */,
@@ -296,6 +299,14 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		43EDF4B42817636200FD9F9E /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				43EDF4B52817638A00FD9F9E /* PetSave.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -380,6 +391,7 @@
 				43EDF4A02816377900FD9F9E /* UserDefaultKeys.swift in Sources */,
 				43EDF49D2816372D00FD9F9E /* APIToken.swift in Sources */,
 				43EDF4AA28163A9700FD9F9E /* RequestManager.swift in Sources */,
+				43EDF4B72817638A00FD9F9E /* PetSave.xcdatamodeld in Sources */,
 				43EDF4AC28163B9B00FD9F9E /* AuthTokenRequest.swift in Sources */,
 				43EDF4A62816389500FD9F9E /* APIManager.swift in Sources */,
 				43EDF4592816275500FD9F9E /* ContentView.swift in Sources */,
@@ -599,6 +611,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		43EDF4B52817638A00FD9F9E /* PetSave.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				43EDF4B62817638A00FD9F9E /* PetSave.xcdatamodel */,
+			);
+			currentVersion = 43EDF4B62817638A00FD9F9E /* PetSave.xcdatamodel */;
+			path = PetSave.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 43EDF44B2816275500FD9F9E /* Project object */;
 }

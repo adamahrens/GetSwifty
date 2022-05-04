@@ -43,5 +43,7 @@ struct AnimalRow: View {
 struct AnimalRow_Previews: PreviewProvider {
   static var previews: some View {
     AnimalRow(animal: Animal.mocks.first!)
+      .previewLayout(.sizeThatFits)
+      .padding()
   }
 }
