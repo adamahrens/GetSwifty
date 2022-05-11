@@ -42,6 +42,7 @@ struct LoadingView: View {
       isDisplayingError = true
     }
   }
+  
   @State var isDisplayingError = false
   @State var progress = 0.0
 
@@ -68,6 +69,7 @@ struct LoadingView: View {
       guard model.imageFeed.isEmpty else { return }
       Task {
         do {
+          try await ImageDatabase.shared.setup()
           try await model.loadImages()
           try await model.verifyImages()
           withAnimation {

@@ -35,7 +35,6 @@ import SwiftUI
 struct DetailsView: View {
   let file: ImageFile
   @State var image: UIImage?
-  @EnvironmentObject var loader: ImageLoader
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -52,11 +51,14 @@ struct DetailsView: View {
       VStack(alignment: .center) {
         Text(file.name)
           .font(.custom("YoungSerif-Regular", size: 28))
+          .padding([.leading, .trailing], 8)
 
         Text(String(format: "$%.2f", file.price))
           .font(.custom("YoungSerif-Regular", size: 21))
+          .padding()
           .background(.pink)
           .foregroundColor(.white)
+          .cornerRadius(8.0)
       }
       .padding(.vertical, 40)
       .clipped()
@@ -64,7 +66,7 @@ struct DetailsView: View {
     .ignoresSafeArea()
     .foregroundColor(.white)
     .task {
-      image = try? await loader.image(file.url)
+      image = try? await ImageDatabase.shared.image(key: file.url)
     }
   }
 }

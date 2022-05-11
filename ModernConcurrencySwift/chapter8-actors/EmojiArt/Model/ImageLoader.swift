@@ -34,6 +34,14 @@ import UIKit
 
 actor ImageLoader: ObservableObject {
   
+  @MainActor private(set) var inMemoryAccess: AsyncStream<Int>?
+  private var inMemoryAccessContinuation: AsyncStream<Int>.Continuation?
+  private var inMemoryAccessCounter = 0 {
+    didSet {
+      inMemoryAccessContinuation?.yield(inMemoryAccessCounter)
+    }
+  }
+  
   enum DownloadState {
     case inProgress(Task<UIImage, Error>)
     case completed(UIImage)
@@ -41,6 +49,20 @@ actor ImageLoader: ObservableObject {
   }
   
   private(set) var cache = [String: DownloadState]()
+  
+  deinit {
+    inMemoryAccessContinuation?.finish()
+  }
+  
+  func setup() async {
+    let accessStream = AsyncStream<Int> { continuation in
+      inMemoryAccessContinuation = continuation
+    }
+    
+    await MainActor.run {
+      inMemoryAccess = accessStream
+    }
+  }
   
   func add(_ image: UIImage, key: String) {
     cache[key] = .completed(image)
@@ -52,12 +74,13 @@ actor ImageLoader: ObservableObject {
   
   // Fetches image from cache or downloads from server
   func image(_ serverPath: String) async throws -> UIImage {
-    
     // Have we seen this image before?
     if let result = cache[serverPath] {
       switch result {
         case .failed: throw "Download failed"
-        case .completed(let image): return image
+        case .completed(let image):
+        inMemoryAccessCounter += 1
+        return image
         case .inProgress(let task): return try await task.value
       }
     }
