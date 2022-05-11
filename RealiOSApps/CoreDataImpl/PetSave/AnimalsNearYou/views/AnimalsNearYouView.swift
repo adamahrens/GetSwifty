@@ -33,57 +33,71 @@
 import SwiftUI
 
 struct AnimalsNearYouView: View {
+  @ObservedObject var viewModel: AnimalsNearYouViewModel
+  
 //  @State var animals = [AnimalEntity]()
   
-  /*
   @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \AnimalEntity.timestamp, ascending: true)], animation: .default)
   var animals: FetchedResults<AnimalEntity>
-   */
   
   // New with iOS 15
-  @SectionedFetchRequest<String, AnimalEntity>(
-    sectionIdentifier: \AnimalEntity.animalSpecies,
-    sortDescriptors: [
-      NSSortDescriptor(keyPath: \AnimalEntity.timestamp,
-                     ascending: true)
-      ],
-    animation: .default
-  ) private var sectionedAnimals:
-      SectionedFetchResults<String, AnimalEntity>
+//  @SectionedFetchRequest<String, AnimalEntity>(
+//    sectionIdentifier: \AnimalEntity.animalSpecies,
+//    sortDescriptors: [
+//      NSSortDescriptor(keyPath: \AnimalEntity.timestamp, ascending: true),
+//      NSSortDescriptor(keyPath: \AnimalEntity.species, ascending: true)
+//
+//      ],
+//    animation: .default
+//  ) private var sectionedAnimals:
+//      SectionedFetchResults<String, AnimalEntity>
 
-  @State var isLoading = true
-  private let requestManager = RequestManager()
+//  @State var isLoading = true
+//  private let requestManager = RequestManager()
 
   var body: some View {
     NavigationView {
       List {
-//        ForEach(animals) { animal in
-//          AnimalRow(animal: animal)
-//        }
-        ForEach(sectionedAnimals) { animals in
-          Section(header: Text(animals.id)) {
-            ForEach(animals) { animal in
-              NavigationLink(destination: AnimalDetailsView()) {
-                AnimalRow(animal: animal)
-              }
-            }
+        ForEach(animals) { animal in
+          NavigationLink(destination: AnimalDetailsView()) {
+            AnimalRow(animal: animal)
           }
         }
+        
+        if !animals.isEmpty && viewModel.hasMoreAnimals {
+          ProgressView("Finding more animals...")
+            .padding()
+            .frame(maxWidth: .infinity)
+            .task {
+              await viewModel.fetchMoreAnimals()
+            }
+        }
 
+        
+//        ForEach(sectionedAnimals) { animals in
+//          Section(header: Text(animals.id)) {
+//            ForEach(animals) { animal in
+//              NavigationLink(destination: AnimalDetailsView()) {
+//                AnimalRow(animal: animal)
+//              }
+//            }
+//          }
+//        }
       }
       .task {
-        await fetchAnimals()
+        await viewModel.fetchAnimals()
       }
       .listStyle(.plain)
       .navigationTitle("Animals near you")
       .overlay {
-        if isLoading {
+        if viewModel.isLoading && animals.isEmpty {
           ProgressView("Finding Animals near you...")
         }
       }
     }.navigationViewStyle(StackNavigationViewStyle())
   }
 
+  /*
   func fetchAnimals() async {
     do {
       let animalsContainer: AnimalsContainer = try await requestManager.perform(AnimalsRequest.getAnimalsWith(
@@ -105,11 +119,16 @@ struct AnimalsNearYouView: View {
   func stopLoading() async {
     isLoading = false
   }
+   */
 }
 
 struct AnimalsNearYouView_Previews: PreviewProvider {
   static var previews: some View {
-    AnimalsNearYouView(isLoading: false)
+    AnimalsNearYouView(viewModel:
+                        AnimalsNearYouViewModel(
+                          animalFetcher: AnimalsFetcherMock(),
+                          animalStore: AnimalStoreService(context: CoreDataHelper.previewContext)
+                        ))
       .environment(\.managedObjectContext,
            PersistenceController.preview.container.viewContext)
   }
