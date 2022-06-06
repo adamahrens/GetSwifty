@@ -1,3 +1,5 @@
+import Combine
+import Foundation
 /// Copyright (c) 2019 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,3 +28,13 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+func decode<T: Decodable>(data: Data) -> AnyPublisher<T, WeatherError> {
+  let decoder = JSONDecoder()
+  decoder.dateDecodingStrategy = .secondsSince1970
+  
+  return Just(data)
+    .decode(type: T.self, decoder: decoder)
+    .mapError { error in
+        .parsing(description: error.localizedDescription)
+    }.eraseToAnyPublisher()
+}

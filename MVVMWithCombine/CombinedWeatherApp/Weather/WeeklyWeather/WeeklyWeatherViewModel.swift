@@ -26,3 +26,59 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import SwiftUI
+import Combine
+
+final class WeeklyWeatherViewModel: ObservableObject, Identifiable {
+  
+  // Output
+  @Published var city = ""
+  @Published var dataSource = [DailyWeatherRowViewModel]()
+  
+  private let service: WeatherFetchable
+  private var cancellables = Set<AnyCancellable>()
+  
+  init(weatherFetcher: WeatherFetchable, scheduler: DispatchQueue = DispatchQueue(label: "WeatherViewModel")) {
+    service = weatherFetcher
+    
+    $city.dropFirst()
+      .debounce(for: .seconds(0.5), scheduler: scheduler)
+      .sink { [weak self] value in
+        self?.fetchWeather(city: value)
+      }.store(in: &cancellables)
+  }
+  
+  func isEmpty() -> Bool {
+    dataSource.isEmpty
+  }
+  
+  func fetchWeather(city: String) {
+    service
+      .weeklyWeatherForecast(city: city)
+      .map { response in response.list.map(DailyWeatherRowViewModel.init) }
+      .map(Array.removeDuplicates)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        guard let self = self else { return }
+        switch completion {
+        case .finished:
+          print("Fetched weekly forecast")
+          break
+        case .failure(_):
+          self.dataSource = [DailyWeatherRowViewModel]()
+          break
+        }
+      } receiveValue: { [weak self] forecast in
+        guard let self = self else { return }
+        self.dataSource = forecast
+      }.store(in: &cancellables)
+
+  }
+}
+
+extension WeeklyWeatherViewModel {
+  var currentWeatherView: some View {
+    WeeklyWeatherBuilder.makeCurrentWeatherView(city: city, weatherFetcher: service)
+  }
+}
+

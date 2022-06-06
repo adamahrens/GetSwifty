@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43D7E953284E39EA00672029 /* OpenWeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D7E952284E39EA00672029 /* OpenWeatherAPI.swift */; };
 		B222515C22D370C60035C1A1 /* WeeklyWeatherBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B222515B22D370C60035C1A1 /* WeeklyWeatherBuilder.swift */; };
 		B22B78A522DF3C92004F21B9 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B78A222DF3C92004F21B9 /* Formatters.swift */; };
 		B22B78A622DF3C92004F21B9 /* Array+Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B78A422DF3C92004F21B9 /* Array+Filtering.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		18D775BD22AD944300AE281E /* CombinedWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CombinedWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43D7E952284E39EA00672029 /* OpenWeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherAPI.swift; sourceTree = "<group>"; };
 		B222515B22D370C60035C1A1 /* WeeklyWeatherBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyWeatherBuilder.swift; sourceTree = "<group>"; };
 		B22B78A222DF3C92004F21B9 /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B22B78A422DF3C92004F21B9 /* Array+Filtering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Filtering.swift"; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				B22B78A922DF3E54004F21B9 /* Responses.swift */,
 				B263E4B322C78C95009D0E0E /* WeatherFetcher.swift */,
 				B263E4B222C78C95009D0E0E /* WeatherError.swift */,
+				43D7E952284E39EA00672029 /* OpenWeatherAPI.swift */,
 			);
 			path = OpenWeatherAPI;
 			sourceTree = "<group>";
@@ -218,7 +221,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "Ray Wenderlich";
 				TargetAttributes = {
 					18D775BC22AD944300AE281E = {
@@ -274,6 +277,7 @@
 				B22B78A622DF3C92004F21B9 /* Array+Filtering.swift in Sources */,
 				B263E4C022C78C95009D0E0E /* DailyWeatherRow.swift in Sources */,
 				B2EE1C2A22B7CE610039ABC4 /* AppDelegate.swift in Sources */,
+				43D7E953284E39EA00672029 /* OpenWeatherAPI.swift in Sources */,
 				B263E4BB22C78C95009D0E0E /* CurrentWeatherView.swift in Sources */,
 				B263E4C122C78C95009D0E0E /* DailyWeatherRowViewModel.swift in Sources */,
 				B263E4BA22C78C95009D0E0E /* CurrentWeatherRowViewModel.swift in Sources */,
@@ -322,6 +326,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -346,7 +351,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -382,6 +387,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -400,7 +406,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

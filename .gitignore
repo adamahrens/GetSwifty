@@ -91,3 +91,4 @@ iOSInjectionProject/
 .DS_Store
 /RealiOSApps/SwiftyPet/SwiftyPet/Common/API/APIConstants.swift
 /RealiOSApps/CoreDataImpl/PetSave/Core/data/api/APIConstants.swift
+/MVVMWithCombine/CombinedWeatherApp/Weather/OpenWeatherAPI/OpenWeatherAPI.swift
