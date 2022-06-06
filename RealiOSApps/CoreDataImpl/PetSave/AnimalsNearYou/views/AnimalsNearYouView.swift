@@ -37,7 +37,7 @@ struct AnimalsNearYouView: View {
   
 //  @State var animals = [AnimalEntity]()
   
-  @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \AnimalEntity.timestamp, ascending: true)], animation: .default)
+  @FetchRequest(sortDescriptors: AnimalEntity.defaultSorts, animation: .default)
   var animals: FetchedResults<AnimalEntity>
   
   // New with iOS 15
@@ -57,13 +57,7 @@ struct AnimalsNearYouView: View {
 
   var body: some View {
     NavigationView {
-      List {
-        ForEach(animals) { animal in
-          NavigationLink(destination: AnimalDetailsView()) {
-            AnimalRow(animal: animal)
-          }
-        }
-        
+      AnimalListView(animals: animals) {
         if !animals.isEmpty && viewModel.hasMoreAnimals {
           ProgressView("Finding more animals...")
             .padding()
@@ -72,17 +66,6 @@ struct AnimalsNearYouView: View {
               await viewModel.fetchMoreAnimals()
             }
         }
-
-        
-//        ForEach(sectionedAnimals) { animals in
-//          Section(header: Text(animals.id)) {
-//            ForEach(animals) { animal in
-//              NavigationLink(destination: AnimalDetailsView()) {
-//                AnimalRow(animal: animal)
-//              }
-//            }
-//          }
-//        }
       }
       .task {
         await viewModel.fetchAnimals()

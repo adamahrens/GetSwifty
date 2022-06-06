@@ -206,3 +206,9 @@ extension Animal: UUIDIdentifiable {
     persistedValue.breeds = self.breeds.toManagedObject(context: context)
   }
 }
+
+extension AnimalEntity {
+  static let defaultSorts = [sortTimestamp]
+  
+  static let sortTimestamp = NSSortDescriptor(keyPath: \AnimalEntity.timestamp, ascending: true)
+}
