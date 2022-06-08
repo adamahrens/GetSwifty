@@ -1,4 +1,4 @@
-/// Copyright (c) 2021 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,77 +32,79 @@
 
 import SwiftUI
 
-struct AnimalDetailsView: View {
-  @State var zoomed = false
-  @State var favorited = false
-
-  let animal: AnimalEntity
-
-  var animalDescription: String? {
-    animal.desc
+struct PetRankingView: View {
+  @ObservedObject var viewModel: PetRankingViewModel
+  var animal: AnimalEntity
+  
+  init(animal: AnimalEntity) {
+    self.animal = animal
+    viewModel = PetRankingViewModel(animal: animal)
   }
-
-  var animalName: String? {
-    animal.name
-  }
-
+  
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView {
-        ZStack(alignment: .leading) {
-          LazyVStack(alignment: .leading) {
-            AnimalHeaderView(animal: animal, zoomed: $zoomed, favorited: $favorited, geometry: geometry)
-              .onTapGesture { zoomed.toggle() }
-            Divider()
-              .blur(radius: zoomed ? 20 : 0)
-            PetRankingView(animal: animal)
-              .padding()
-              .blur(radius: zoomed ? 20: 0)
-            AnimalDetailRow(animal: animal)
-              .blur(radius: zoomed ? 20 : 0)
-            Divider()
-              .blur(radius: zoomed ? 20 : 0)
-            VStack(alignment: .leading, spacing: 24) {
-              if let description = animalDescription {
-                VStack(alignment: .leading) {
-                  Text("Details")
-                    .font(.headline)
-                  Text(description)
-                }
-              }
-              AnimalContactsView(animal: animal)
-              Divider()
-                .blur(radius: zoomed ? 20 : 0)
-              AnimalLocationView(animal: animal)
-            }
-            .blur(radius: zoomed ? 20 : 0)
-            .padding(.horizontal)
-            .padding(.bottom)
-          }
-          .animation(.spring(), value: zoomed)
-        }
+    HStack {
+      Text("Rank Me!")
+        .multilineTextAlignment(.center)
+      ForEach(0...4, id: \.self) { index in
+        PetRankImage(index: index, recentIndex: $viewModel.ranking)
       }
     }
-    .navigationTitle(animalName ?? "")
-    .navigationBarTitleDisplayMode(.inline)
   }
 }
 
-struct AnimalsView_Previews: PreviewProvider {
+struct PetRankImage: View {
+  let index: Int
+  
+  @State var opacity = 0.4
+  @State var tapped = false
+  @Binding var recentIndex: Int
+  
+  var body: some View {
+    Image("creature_dog-and-bone")
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .opacity(opacity)
+      .frame(width: 50, height: 50)
+      .onTapGesture {
+        opacity = tapped ? 0.4 : 1.0
+        tapped.toggle()
+        recentIndex = index
+      }
+      .onChange(of: recentIndex) { newValue in
+        checkOpacity(value: newValue)
+      }
+      .onAppear {
+        checkOpacity(value: recentIndex)
+      }
+  }
+  
+  private func checkOpacity(value: Int) {
+    opacity = value >= index ? 1.0 : 0.4
+    tapped.toggle()
+  }
+}
+
+final class PetRankingViewModel: ObservableObject {
+  var animal: AnimalEntity
+  var ranking: Int {
+    didSet {
+      animal.ranking = Int32(ranking)
+      objectWillChange.send()
+    }
+  }
+  
+  init(animal: AnimalEntity) {
+    self.animal = animal
+    self.ranking = Int(animal.ranking)
+  }
+}
+
+struct PetRankingView_Previews: PreviewProvider {
   static var previews: some View {
     if let animal = CoreDataHelper.getTestAnimalEntity() {
-      NavigationView {
-        AnimalDetailsView(animal: animal)
-          .previewLayout(.sizeThatFits)
-      }
-      .previewLayout(.sizeThatFits)
-      .previewDisplayName("iPhone SE (2nd generation)")
-
-      NavigationView {
-        AnimalDetailsView(animal: animal)
-      }
-      .previewDevice("iPhone 12 Pro")
-      .previewDisplayName("iPhone 12 Pro")
+      PetRankingView(animal: animal)
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
   }
 }

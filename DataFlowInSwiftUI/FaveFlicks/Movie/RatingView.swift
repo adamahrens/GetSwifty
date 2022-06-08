@@ -1,15 +1,15 @@
-/// Copyright (c) 2022 Razeware LLC
-/// 
+/// Copyright (c) 2020 Razeware LLC
+///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-/// 
+///
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-/// 
+///
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-/// 
+///
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -32,49 +32,32 @@
 
 import SwiftUI
 
-struct AnimalListView<Content, Data>: View
-  where Content: View,
-  Data: RandomAccessCollection,
-  Data.Element: AnimalEntity {
-  let animals: Data
+struct RatingView: View {
+  let rating: Double
 
-  let footer: Content
-
-  init(animals: Data, @ViewBuilder footer: () -> Content) {
-    self.animals = animals
-    self.footer = footer()
+  var fullStarCount: Int {
+    Int(rating / 1)
   }
 
-  init(animals: Data) where Content == EmptyView {
-    self.init(animals: animals) {
-      EmptyView()
-    }
+  var hasHalfStar: Bool {
+    rating.truncatingRemainder(dividingBy: 1) != 0
   }
 
   var body: some View {
-    List {
-      ForEach(animals) { animal in
-        NavigationLink(destination: AnimalDetailsView(animal: animal)) {
-          AnimalRow(animal: animal)
-        }
+    HStack {
+      ForEach(0..<fullStarCount, id: \.self) { _ in
+        Image(systemName: "star.fill")
       }
-      
-      footer
+      if hasHalfStar {
+        Image(systemName: "star.lefthalf.fill")
+      }
     }
-    .listStyle(.plain)
+    .foregroundColor(.orange)
   }
 }
 
-struct AnimalListView_Previews: PreviewProvider {
+struct RatingView_Previews: PreviewProvider {
   static var previews: some View {
-    NavigationView {
-      AnimalListView(animals: CoreDataHelper.getTestAnimalEntities() ?? [])
-    }
-
-    NavigationView {
-      AnimalListView(animals: []) {
-        Text("This is a footer")
-      }
-    }
+    RatingView(rating: 4.5)
   }
 }

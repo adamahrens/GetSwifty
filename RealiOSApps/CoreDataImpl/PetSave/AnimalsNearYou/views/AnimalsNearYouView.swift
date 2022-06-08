@@ -59,9 +59,14 @@ struct AnimalsNearYouView: View {
     NavigationView {
       AnimalListView(animals: animals) {
         if !animals.isEmpty && viewModel.hasMoreAnimals {
-          ProgressView("Finding more animals...")
-            .padding()
-            .frame(maxWidth: .infinity)
+//          ProgressView("Finding more animals...")
+//            .padding()
+//            .frame(maxWidth: .infinity)
+            HStack(alignment: .center) {
+              LoadingAnimation()
+                .frame(maxWidth: 125, minHeight: 125)
+              Text("Loading more animals...")
+            }
             .task {
               await viewModel.fetchMoreAnimals()
             }
@@ -114,5 +119,6 @@ struct AnimalsNearYouView_Previews: PreviewProvider {
                         ))
       .environment(\.managedObjectContext,
            PersistenceController.preview.container.viewContext)
+      .preferredColorScheme(.dark)
   }
 }

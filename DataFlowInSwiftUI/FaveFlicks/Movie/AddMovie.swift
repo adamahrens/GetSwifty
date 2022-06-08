@@ -1,15 +1,15 @@
-/// Copyright (c) 2022 Razeware LLC
-/// 
+/// Copyright (c) 2020 Razeware LLC
+///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-/// 
+///
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-/// 
+///
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-/// 
+///
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -32,49 +32,47 @@
 
 import SwiftUI
 
-struct AnimalListView<Content, Data>: View
-  where Content: View,
-  Data: RandomAccessCollection,
-  Data.Element: AnimalEntity {
-  let animals: Data
+struct AddMovie: View {
+  static let defaultMovieTitle = "An untitled masterpiece"
+  static let defaultMovieGenre = Genre.allCases.first
 
-  let footer: Content
-
-  init(animals: Data, @ViewBuilder footer: () -> Content) {
-    self.animals = animals
-    self.footer = footer()
-  }
-
-  init(animals: Data) where Content == EmptyView {
-    self.init(animals: animals) {
-      EmptyView()
-    }
-  }
+  let movieStore: MovieStore
+  @Binding var showModal: Bool
+  @State private var title = ""
+  @State private var rating: Double = 0
+  
+  @EnvironmentObject var userStore: UserStore
 
   var body: some View {
-    List {
-      ForEach(animals) { animal in
-        NavigationLink(destination: AnimalDetailsView(animal: animal)) {
-          AnimalRow(animal: animal)
+    NavigationView {
+      Form {
+        Section(header: Text("Title")) {
+          TextField("Title", text: $title)
+        }
+        Section(header: Text("Genre")) {
+          GenrePicker(genre: $userStore.favoriteGenre)
+        }
+        Section(header: Text("Rating")) {
+          Slider(value: $rating, in: 0...5, step: 0.5)
+          RatingView(rating: rating)
         }
       }
-      
-      footer
+      .navigationBarTitle(Text("Add Movie"), displayMode: .inline)
+      .navigationBarItems(
+        trailing:
+          Button(action: addMovie) {
+            Text("Add")
+          }
+      )
     }
-    .listStyle(.plain)
   }
-}
 
-struct AnimalListView_Previews: PreviewProvider {
-  static var previews: some View {
-    NavigationView {
-      AnimalListView(animals: CoreDataHelper.getTestAnimalEntities() ?? [])
-    }
+  private func addMovie() {
+    movieStore.addMovie(
+      title: title.isEmpty ? AddMovie.defaultMovieTitle : title,
+      genre: userStore.favoriteGenre,
+      rating: rating)
 
-    NavigationView {
-      AnimalListView(animals: []) {
-        Text("This is a footer")
-      }
-    }
+    showModal.toggle()
   }
 }
